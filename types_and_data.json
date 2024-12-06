@@ -1,0 +1,189 @@
+{
+    "types": [
+        {
+            "name": "cmd_t",
+            "type": "atom",
+            "declaration": "uint8_t",
+            "domain": {
+                    "min": 0,
+                    "max": 1
+                },
+            "comment" : ""
+        },
+        {
+            "name": "frame_num_t",
+            "type": "atom",
+            "declaration": "uint8_t",
+            "domain": {
+                    "min": 0,
+                    "max": 100
+                },
+            "comment" : ""
+        },
+        {
+            "name": "mileage_t",
+            "type": "atom",
+            "declaration": "uint32_t",
+            "domain": {
+                    "min": 0
+                },
+            "comment" : ""
+        },
+        {
+            "name": "speed_t",
+            "type": "atom",
+            "declaration": "uint8_t",
+            "domain": {
+                    "min": 0,
+                    "max": 255
+                },
+            "comment" : ""
+        },
+        {
+            "name": "chassis_pb_t",
+            "type": "enum",
+            "enum": {
+                "NO_PROBLEM": 0,
+                "PRESSURE_TIRES": 1,
+                "CAR_BRAKE": 2
+            },
+            "declaration": "uint8_t",
+            "domain": {
+                    "min": 0,
+                    "max": 2
+                },
+            "comment" : ""
+        },
+        {
+            "name": "motor_pb_t",
+            "type": "enum",
+            "enum": {
+                "NO_PROBLEM": 0,
+                "PRESSURE_DEFECT": 1,
+                "COOLANT": 2,
+                "OVERHEATING_OIL" : 3
+            },
+            "declaration": "uint8_t",
+            "domain": {
+                    "min": 0,
+                    "max": 3
+                },
+            "comment" : ""
+        },
+        {
+            "name": "tank_level_t",
+            "type": "atom",
+            "declaration": "uint8_t",
+            "domain": {
+                    "min": 0,
+                    "max": 40
+                },
+            "comment" : ""
+        },
+        {
+            "name": "rpm_t",
+            "type": "atom",
+            "declaration": "uint32_t",
+            "domain": {
+                    "min": 0,
+                    "max": 10000
+                },
+            "comment" : ""
+        },
+        {
+            "name": "battery_pb_t",
+            "type": "enum",
+            "enum": {
+                "NO_PROBLEM": 0,
+                "DISCHARGED": 1,
+                "FAILURE": 2
+            },
+            "declaration": "uint8_t",
+            "domain": {
+                    "min": 0,
+                    "max": 2
+                },
+            "comment" : ""
+        },
+        {
+            "name": "crc_t",
+            "type": "atom",
+            "declaration": "uint8_t",
+            "domain": {
+                    "min": 0,
+                    "max": 255
+                },
+            "comment" : ""
+        },
+        {
+            "name": "id_t",
+            "type": "atom",
+            "declaration": "uint8_t",
+            "domain": {
+                    "min": 1,
+                    "max": 5
+                },
+            "comment" : ""
+        },
+        {
+            "name": "activation_t",
+            "type": "atom",
+            "declaration": "uint8_t",
+            "domain": {
+                    "min": 0,
+                    "max": 1
+                },
+            "comment" : ""
+        },
+        {
+            "name": "indicator_t",
+            "type": "atom",
+            "declaration": "uint8_t",
+            "domain": {
+                    "min": 0,
+                    "max": 1
+                },
+            "comment" : ""
+        },
+        {
+            "name": "display_mileage_t",
+            "type": "atom",
+            "declaration": "uint32_t",
+            "domain": {
+                    "min": 0
+                },
+            "comment" : ""
+        },
+        {
+            "name": "display_speed_t",
+            "type": "atom",
+            "declaration": "uint32_t",
+            "domain": {
+                    "min": 0
+                },
+            "comment" : ""
+        },
+        {
+            "name": "display_tank_level_t",
+            "type": "atom",
+            "declaration": "uint32_t",
+            "domain": {
+                    "min": 0
+                },
+            "comment" : ""
+        },
+        {
+            "name": "display_rpm_t",
+            "type": "atom",
+            "declaration": "uint32_t",
+            "domain": {
+                    "min": 0,
+                    "max": 1000
+                },
+            "comment" : ""
+        }
+    ],
+    "datas":[
+        
+    ]
+}
