@@ -294,8 +294,112 @@
         },
         {
             "id": 14,
+            "name": "tankLevel",
+            "type": "tank_level_t ",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 15,
+            "name": "rpm",
+            "type": "rpm_t ",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 16,
             "name": "problemBattery",
             "type": "battery_pb_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 17,
+            "name": "crc8",
+            "type": "crc_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 18,
+            "name": "idMsgBcgvToBgf1",
+            "type": "id_t",
+            "dimension": 0,
+            "initValue" : "0x01",
+            "comment": ""
+        },
+        {
+            "id": 19,
+            "name": "idMsgBcgvToBgf2",
+            "type": "id_t",
+            "dimension": 0,
+            "initValue" : "0x02",
+            "comment": ""
+        },
+        {
+            "id": 20,
+            "name": "idMsgBcgvToBgf3",
+            "type": "id_t",
+            "dimension": 0,
+            "initValue" : "0x03",
+            "comment": ""
+        },
+        {
+            "id": 21,
+            "name": "idMsgBcgvToBgf4",
+            "type": "id_t",
+            "dimension": 0,
+            "initValue" : "0x04",
+            "comment": ""
+        },
+        {
+            "id": 22,
+            "name": "idMsgBcgvToBgf5",
+            "type": "id_t",
+            "dimension": 0,
+            "initValue" : "0x05",
+            "comment": ""
+        },
+        {
+            "id": 23,
+            "name": "activationPositionLights",
+            "type": "activation_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 24,
+            "name": "activationLowBeams",
+            "type": "activation_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 25,
+            "name": "activationHighBeams",
+            "type": "activation_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 26,
+            "name": "activationRightTurnSignal",
+            "type": "activation_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 27,
+            "name": "activationLeftRurnSignal",
+            "type": "activation_t",
             "dimension": 0,
             "initValue" : 0,
             "comment": ""
