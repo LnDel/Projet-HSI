@@ -127,7 +127,11 @@
         },
         {
             "name": "activation_t",
-            "type": "atom",
+            "type": "enum",
+            "enum": {
+                "OFF": 0,
+                "ON": 1
+            },
             "declaration": "uint8_t",
             "domain": {
                     "min": 0,
@@ -184,6 +188,118 @@
         }
     ],
     "datas":[
+        {
+            "id": 1,
+            "name": "cmdWarning",
+            "type": "cmd_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 2,
+            "name": "cmdPositionLights",
+            "type": "cmd_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 3,
+            "name": "cmdLowBeams",
+            "type": "cmd_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 4,
+            "name": "cmdHighBeams",
+            "type": "cmd_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 5,
+            "name": "cmdRightTurnSignal",
+            "type": "cmd_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 6,
+            "name": "cmdLeftRurnSignal",
+            "type": "cmd_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 7,
+            "name": "cmdWindShieldWiper",
+            "type": "cmd_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 8,
+            "name": "cmdWindShieldWasher",
+            "type": "cmd_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 9,
+            "name": "frameNumber",
+            "type": "frame_num_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 10,
+            "name": "mileage",
+            "type": "mileage_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 11,
+            "name": "speed",
+            "type": "speed_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 12,
+            "name": "problemChassis",
+            "type": "chassis_pb_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 13,
+            "name": "problemMotor",
+            "type": "motor_pb_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 14,
+            "name": "problemBattery",
+            "type": "battery_pb_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        }
         
     ]
 }
