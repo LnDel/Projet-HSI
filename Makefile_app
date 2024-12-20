@@ -1,0 +1,30 @@
+# Folders
+srcdir = ./src/
+bindir = ./bin/
+libdir = ./lib/
+
+# Commands
+CC = gcc -Wall
+RM = rm -f
+
+# Specific files
+SRC = $(srcdir)app.c
+OBJ = $(bindir)app.o
+LIB = $(libdir)*.a
+PROG = $(bindir)app
+
+# Target
+all: $(PROG)
+
+# Creation executable
+$(PROG): $(OBJ)
+	$(CC) $^ $(LIB) -o $@ -lm
+
+# Creation object files
+$(bindir)%.o: $(srcdir)%.c
+	$(CC) -c $< -o $@
+
+clean:
+	$(RM) $(OBJ) $(PROG)
+
+.PHONY: all clean
