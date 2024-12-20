@@ -1,0 +1,30 @@
+# Folders
+srcdir = ./src/
+bindir = ./bin/
+libdir = ./lib/
+
+# Commands
+CC = gcc -Wall
+AR = ar rcs
+RM = rm -f
+
+# Specific files
+SRC = $(wildcard $(srcdir)*.c)
+OBJ = $(patsubst $(srcdir)%.c, $(bindir)%.o, $(SRC))
+LIB = $(libdir)*.a
+
+# target
+all: $(LIB)
+
+# Creation static library
+$(LIB): $(OBJ)
+	$(AR) $@ $^
+	
+# Creation object files
+$(bindir)%.o: $(srcdir)%.c
+	$(CC) -c $< -o $@
+
+clean:
+	$(RM) $(OBJ) $(LIB)
+
+.PHONY: all clean
