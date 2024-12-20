@@ -71,7 +71,7 @@ def generate_h_code(data):
 
     getters = [f"{d['type']} get_{d['name']}(void);" for d in datas]
 
-    setters = [f"bool set_{d['name']}({d['type']} value);" for d in datas]
+    setters = [f"short int set_{d['name']}({d['type']} value);" for d in datas]
 
     init_function = ["void init_BCGV_Data(void);"]
 
@@ -94,4 +94,4 @@ with open("src/bcgv_lib.h", "w") as file:
 with open("src/bcgv_lib.h", "w") as file:
     file.write(h_code)
 
-print("Succes")
+print("Success")
