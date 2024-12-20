@@ -43,7 +43,7 @@
             "name": "chassis_pb_t",
             "type": "enum",
             "enum": {
-                "NO_PROBLEM": 0,
+                "NO_CHASSIS_PROBLEM": 0,
                 "PRESSURE_TIRES": 1,
                 "CAR_BRAKE": 2
             },
@@ -58,7 +58,7 @@
             "name": "motor_pb_t",
             "type": "enum",
             "enum": {
-                "NO_PROBLEM": 0,
+                "NO_MOTOR_PROBLEM": 0,
                 "PRESSURE_DEFECT": 1,
                 "COOLANT": 2,
                 "OVERHEATING_OIL" : 3
@@ -94,7 +94,7 @@
             "name": "battery_pb_t",
             "type": "enum",
             "enum": {
-                "NO_PROBLEM": 0,
+                "NO_BATTERY_PROBLEM": 0,
                 "DISCHARGED": 1,
                 "FAILURE": 2
             },
@@ -230,7 +230,7 @@
         },
         {
             "id": 6,
-            "name": "cmdLeftRurnSignal",
+            "name": "cmdLeftTurnSignal",
             "type": "cmd_t",
             "dimension": 0,
             "initValue" : 0,
@@ -329,7 +329,7 @@
             "name": "idMsgBcgvToBgf1",
             "type": "id_t",
             "dimension": 0,
-            "initValue" : "0x01",
+            "initValue" : 1,
             "comment": ""
         },
         {
@@ -337,7 +337,7 @@
             "name": "idMsgBcgvToBgf2",
             "type": "id_t",
             "dimension": 0,
-            "initValue" : "0x02",
+            "initValue" : 2,
             "comment": ""
         },
         {
@@ -345,7 +345,7 @@
             "name": "idMsgBcgvToBgf3",
             "type": "id_t",
             "dimension": 0,
-            "initValue" : "0x03",
+            "initValue" : 3,
             "comment": ""
         },
         {
@@ -353,7 +353,7 @@
             "name": "idMsgBcgvToBgf4",
             "type": "id_t",
             "dimension": 0,
-            "initValue" : "0x04",
+            "initValue" : 4,
             "comment": ""
         },
         {
@@ -361,7 +361,7 @@
             "name": "idMsgBcgvToBgf5",
             "type": "id_t",
             "dimension": 0,
-            "initValue" : "0x05",
+            "initValue" : 5,
             "comment": ""
         },
         {
@@ -398,8 +398,160 @@
         },
         {
             "id": 27,
-            "name": "activationLeftRurnSignal",
+            "name": "activationLeftTurnSignal",
             "type": "activation_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 28,
+            "name": "indicatorPositionLights",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 29,
+            "name": "indicatorLowBeams",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 29,
+            "name": "indicatorHighBeams",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 30,
+            "name": "indicatorFuel",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 31,
+            "name": "indicatorMotorPb",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 32,
+            "name": "indicatorTirePressure",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 33,
+            "name": "indicatorDischargedBattery",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 34,
+            "name": "indicatorWarning",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 35,
+            "name": "indicatorBatteryFailure",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 36,
+            "name": "indicatorTempLDR",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 37,
+            "name": "indicatorMotorPressure",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 38,
+            "name": "indicatorOilOverheating",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 39,
+            "name": "indicatorBrakeFailure",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 40,
+            "name": "activationShieldWiper",
+            "type": "activation_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 41,
+            "name": "activationShieldWasher",
+            "type": "activation_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 42,
+            "name": "displayMileage",
+            "type": "display_mileage_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 43,
+            "name": "displaySpeed",
+            "type": "display_speed_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 44,
+            "name": "displayTankLevel",
+            "type": "display_tank_level_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 45,
+            "name": "displayRpm",
+            "type": "display_rpm_t",
             "dimension": 0,
             "initValue" : 0,
             "comment": ""
