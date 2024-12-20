@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+// #include <variables.h>
 
 /* States */
 typedef enum {
@@ -28,7 +29,7 @@ typedef enum {
     EV_NONE = 0,                            /* No event */
     EV_CMD0 = 1,                            /* Cmd = 0 */
     EV_CMD1 = 2,                            /* Cmd = 1 */
-    EV_ACQ_RECEIVE = 3,                     /* Acquittement received */
+    EV_ACQ_RECEIVED = 3,                     /* Acquittement received */
     EV_ACQ_TIMEOUT = 4,                     /* Acquittement timeout */
     EV_ERR = 255                            /* Error event */
 } fsm_event_t;
@@ -71,7 +72,7 @@ tTransition trans[] = {
     { ST_OFF, EV_CMD1, &callback2, ST_ON},
     { ST_ON, EV_CMD1, &callback2, ST_ON},
     { ST_ON, EV_CMD0, &callback1, ST_OFF},
-    { ST_ON, EV_ACQ_RECEIVE, &callback3, ST_ACQUITTED},
+    { ST_ON, EV_ACQ_RECEIVED, &callback3, ST_ACQUITTED},
     { ST_ON, EV_ACQ_TIMEOUT, &FsmError, ST_ERROR},
     { ST_ACQUITTED, EV_CMD1, &callback3, ST_ACQUITTED},
     { ST_ACQUITTED, EV_CMD0, &callback1, ST_OFF},
@@ -90,19 +91,17 @@ int get_next_event(int current_state)
 
   if(cmd == 0) {
     event = EV_CMD0;
+  }else if (acq != NULL) {
+    if (acq == 1) {
+      event = EV_ACQ_RECEIVED;
+    }
+// ================ Need to add a condition depending on a timer (1 second) ================
+    else { // acq == 0 and maybe the condition is in the function getActivationPositionLight() then no need here
+      event = EV_ACQ_TIMEOUT;
+    }
   }else if (cmd == 1) {
     event = EV_CMD1;
-  }else if (acq == 1) {
-    event = EV_ACQ_RECEIVE;
-  }
-  // ================ Need to add a condition depending on a timer (1 second) ================
-  else if (acq == 0) {
-    event = EV_ACQ_TIMEOUT;
-  }
-
-
-
-
+  }else event = EV_ERR; 
   return event;
 }
 
