@@ -23,7 +23,7 @@ typedef enum { NO_BATTERY_PROBLEM = 0, DISCHARGED = 1, FAILURE = 2 } battery_pb_
 
 typedef uint8_t crc_t;
 
-typedef uint8_t id_t;
+typedef uint8_t id_msg_t;
 
 typedef enum { OFF = 0, ON = 1 } activation_t;
 
@@ -55,11 +55,11 @@ typedef struct {
     rpm_t  rpm;
     battery_pb_t problemBattery;
     crc_t crc8;
-    id_t idMsgBcgvToBgf1;
-    id_t idMsgBcgvToBgf2;
-    id_t idMsgBcgvToBgf3;
-    id_t idMsgBcgvToBgf4;
-    id_t idMsgBcgvToBgf5;
+    id_msg_t idMsgBcgvToBgf1;
+    id_msg_t idMsgBcgvToBgf2;
+    id_msg_t idMsgBcgvToBgf3;
+    id_msg_t idMsgBcgvToBgf4;
+    id_msg_t idMsgBcgvToBgf5;
     activation_t activationPositionLights;
     activation_t activationLowBeams;
     activation_t activationHighBeams;
@@ -120,15 +120,15 @@ battery_pb_t get_problemBattery(void);
 
 crc_t get_crc8(void);
 
-id_t get_idMsgBcgvToBgf1(void);
+id_msg_t get_idMsgBcgvToBgf1(void);
 
-id_t get_idMsgBcgvToBgf2(void);
+id_msg_t get_idMsgBcgvToBgf2(void);
 
-id_t get_idMsgBcgvToBgf3(void);
+id_msg_t get_idMsgBcgvToBgf3(void);
 
-id_t get_idMsgBcgvToBgf4(void);
+id_msg_t get_idMsgBcgvToBgf4(void);
 
-id_t get_idMsgBcgvToBgf5(void);
+id_msg_t get_idMsgBcgvToBgf5(void);
 
 activation_t get_activationPositionLights(void);
 
@@ -178,97 +178,97 @@ display_tank_level_t get_displayTankLevel(void);
 
 display_rpm_t get_displayRpm(void);
 
-bool set_cmdWarning(cmd_t value);
+short int set_cmdWarning(cmd_t value);
 
-bool set_cmdPositionLights(cmd_t value);
+short int set_cmdPositionLights(cmd_t value);
 
-bool set_cmdLowBeams(cmd_t value);
+short int set_cmdLowBeams(cmd_t value);
 
-bool set_cmdHighBeams(cmd_t value);
+short int set_cmdHighBeams(cmd_t value);
 
-bool set_cmdRightTurnSignal(cmd_t value);
+short int set_cmdRightTurnSignal(cmd_t value);
 
-bool set_cmdLeftTurnSignal(cmd_t value);
+short int set_cmdLeftTurnSignal(cmd_t value);
 
-bool set_cmdWindShieldWiper(cmd_t value);
+short int set_cmdWindShieldWiper(cmd_t value);
 
-bool set_cmdWindShieldWasher(cmd_t value);
+short int set_cmdWindShieldWasher(cmd_t value);
 
-bool set_frameNumber(frame_num_t value);
+short int set_frameNumber(frame_num_t value);
 
-bool set_mileage(mileage_t value);
+short int set_mileage(mileage_t value);
 
-bool set_speed(speed_t value);
+short int set_speed(speed_t value);
 
-bool set_problemChassis(chassis_pb_t value);
+short int set_problemChassis(chassis_pb_t value);
 
-bool set_problemMotor(motor_pb_t value);
+short int set_problemMotor(motor_pb_t value);
 
-bool set_tankLevel(tank_level_t  value);
+short int set_tankLevel(tank_level_t  value);
 
-bool set_rpm(rpm_t  value);
+short int set_rpm(rpm_t  value);
 
-bool set_problemBattery(battery_pb_t value);
+short int set_problemBattery(battery_pb_t value);
 
-bool set_crc8(crc_t value);
+short int set_crc8(crc_t value);
 
-bool set_idMsgBcgvToBgf1(id_t value);
+short int set_idMsgBcgvToBgf1(id_msg_t value);
 
-bool set_idMsgBcgvToBgf2(id_t value);
+short int set_idMsgBcgvToBgf2(id_msg_t value);
 
-bool set_idMsgBcgvToBgf3(id_t value);
+short int set_idMsgBcgvToBgf3(id_msg_t value);
 
-bool set_idMsgBcgvToBgf4(id_t value);
+short int set_idMsgBcgvToBgf4(id_msg_t value);
 
-bool set_idMsgBcgvToBgf5(id_t value);
+short int set_idMsgBcgvToBgf5(id_msg_t value);
 
-bool set_activationPositionLights(activation_t value);
+short int set_activationPositionLights(activation_t value);
 
-bool set_activationLowBeams(activation_t value);
+short int set_activationLowBeams(activation_t value);
 
-bool set_activationHighBeams(activation_t value);
+short int set_activationHighBeams(activation_t value);
 
-bool set_activationRightTurnSignal(activation_t value);
+short int set_activationRightTurnSignal(activation_t value);
 
-bool set_activationLeftTurnSignal(activation_t value);
+short int set_activationLeftTurnSignal(activation_t value);
 
-bool set_indicatorPositionLights(indicator_t value);
+short int set_indicatorPositionLights(indicator_t value);
 
-bool set_indicatorLowBeams(indicator_t value);
+short int set_indicatorLowBeams(indicator_t value);
 
-bool set_indicatorHighBeams(indicator_t value);
+short int set_indicatorHighBeams(indicator_t value);
 
-bool set_indicatorFuel(indicator_t value);
+short int set_indicatorFuel(indicator_t value);
 
-bool set_indicatorMotorPb(indicator_t value);
+short int set_indicatorMotorPb(indicator_t value);
 
-bool set_indicatorTirePressure(indicator_t value);
+short int set_indicatorTirePressure(indicator_t value);
 
-bool set_indicatorDischargedBattery(indicator_t value);
+short int set_indicatorDischargedBattery(indicator_t value);
 
-bool set_indicatorWarning(indicator_t value);
+short int set_indicatorWarning(indicator_t value);
 
-bool set_indicatorBatteryFailure(indicator_t value);
+short int set_indicatorBatteryFailure(indicator_t value);
 
-bool set_indicatorTempLDR(indicator_t value);
+short int set_indicatorTempLDR(indicator_t value);
 
-bool set_indicatorMotorPressure(indicator_t value);
+short int set_indicatorMotorPressure(indicator_t value);
 
-bool set_indicatorOilOverheating(indicator_t value);
+short int set_indicatorOilOverheating(indicator_t value);
 
-bool set_indicatorBrakeFailure(indicator_t value);
+short int set_indicatorBrakeFailure(indicator_t value);
 
-bool set_activationShieldWiper(activation_t value);
+short int set_activationShieldWiper(activation_t value);
 
-bool set_activationShieldWasher(activation_t value);
+short int set_activationShieldWasher(activation_t value);
 
-bool set_displayMileage(display_mileage_t value);
+short int set_displayMileage(display_mileage_t value);
 
-bool set_displaySpeed(display_speed_t value);
+short int set_displaySpeed(display_speed_t value);
 
-bool set_displayTankLevel(display_tank_level_t value);
+short int set_displayTankLevel(display_tank_level_t value);
 
-bool set_displayRpm(display_rpm_t value);
+short int set_displayRpm(display_rpm_t value);
 
 void init_BCGV_Data(void);
 
