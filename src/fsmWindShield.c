@@ -10,6 +10,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <time.h>
+
+#include "bcgv_lib.c"
 
 /* States */
 typedef enum {
@@ -26,10 +29,10 @@ typedef enum {
 typedef enum {
     EV_ANY = -1,                            /* Any event */
     EV_NONE = 0,                            /* No event */
-    EV_CMD_EG0 = 1,
-    EV_CMD_LG0 = 2,
-    EV_CMD_EG1= 3,
-    EV_CMD_LG1= 4,
+    EV_CMD_WI0 = 1,                         // WI == Wiper
+    EV_CMD_WA0 = 2,                         // WA == Washer
+    EV_CMD_WI1= 3,
+    EV_CMD_WA1= 4,
     EV_TIME_UNDER_2=5,
     EV_TIME_OVER_2=6,
     EV_ERR = 255                            /* Error event */
@@ -53,41 +56,57 @@ typedef struct {
 tTransition trans[] = {
     /* These are examples */
     { ST_INIT, EV_ANY, &callback1, ST_ALLOFF},
-    { ST_ALLOFF, EV_CMD_EG1, &callback2, ST_WINDSHIELDWIPER_ON},
-    { ST_ALLOFF, EV_CMD_LG1, &callback2, ST_WIPER_AND_WASHER_ON},
-    { ST_TIMERWIPER_AND_WASHEROFF, EV_CMD_LG1, &callback2, ST_WIPER_AND_WASHER_ON},
+    { ST_ALLOFF, EV_CMD_WI1, &callback2, ST_WINDSHIELDWIPER_ON},
+    { ST_ALLOFF, EV_CMD_WA1, &callback2, ST_WIPER_AND_WASHER_ON},
+    { ST_TIMERWIPER_AND_WASHEROFF, EV_CMD_WA1, &callback2, ST_WIPER_AND_WASHER_ON},
     { ST_TIMERWIPER_AND_WASHEROFF, EV_TIME_OVER_2, &callback3, ST_ALLOFF},
     { ST_TIMERWIPER_AND_WASHEROFF, EV_TIME_UNDER_2, &callback2, ST_TIMERWIPER_AND_WASHEROFF},
-    { ST_WIPER_AND_WASHER_ON, EV_CMD_LG1, &callback1, ST_WIPER_AND_WASHER_ON},
-    { ST_WIPER_AND_WASHER_ON, EV_CMD_LG0, &callback1, ST_TIMERWIPER_AND_WASHEROFF},
-    { ST_WINDSHIELDWIPER_ON, EV_CMD_LG1, &callback3, ST_WIPER_AND_WASHER_ON},
-    { ST_WINDSHIELDWIPER_ON, EV_CMD_EG0, &callback3, ST_ALLOFF},
+    { ST_WIPER_AND_WASHER_ON, EV_CMD_WA1, &callback1, ST_WIPER_AND_WASHER_ON},
+    { ST_WIPER_AND_WASHER_ON, EV_CMD_WA0, &callback1, ST_TIMERWIPER_AND_WASHEROFF},
+    { ST_WINDSHIELDWIPER_ON, EV_CMD_WA1, &callback3, ST_WIPER_AND_WASHER_ON},
+    { ST_WINDSHIELDWIPER_ON, EV_CMD_WI0, &callback3, ST_ALLOFF},
     { ST_ANY, EV_ERR, &FsmError, ST_TERM}
 };
 
 #define TRANS_COUNT (sizeof(trans)/sizeof(*trans))
 
-int get_next_event(int current_state)
+int get_next_event(int current_state, long unsigned currentTimeSeconds)
 {
   int event = EV_NONE;
-  cmd_t cmd = getCmdPositionLight(); // get the cmd parameter
+  cmd_t cmdWasher = get_cmdWindShieldWasher(); // get the cmd parameter for the windshield washer
+  cmd_t cmdWiper = get_cmdWindShieldWiper(); // get the cmd parameter for the windshield wiper
   activation_t acq = getActivationPositionLight(); // get the acq parameter
 
-  if(cmd == 0) {
-    event = EV_CMD0;
-  }else if (cmd == 1) {
-    event = EV_CMD1;
-  }else if (acq == 1) {
-    event = EV_ACQ_RECEIVED;
+  time_t timer = time(NULL);
+  unsigned long timerSeconds = difftime(timer, 0);
+
+  if(cmdWasher == 0 && cmdWiper == 0){
+    event = get_next_event(current_state, currentTimeSeconds);
+  }else if (current_state == ST_ALLOFF) {
+    if (cmdWiper == 1) {
+      event = EV_CMD_WI1;
+    }else { // (cmdWasher == 1) 
+      event = EV_CMD_WA1;
+    }
+  }else if (current_state == ST_WINDSHIELDWIPER_ON) {
+    if (cmdWasher == 1) {
+      event = EV_CMD_WA1;
+    }else if (cmdWiper == 0) {
+      event = EV_CMD_WI0;
+    }else { // (cmdWiper == 1)
+      event = get_next_event(current_state, currentTimeSeconds);
+    }
+  }else if (current_state == ST_WIPER_AND_WASHER_ON) {
+    if (cmdWasher == 0) {
+      event = EV_CMD_WA0;
+    }else { // (cmdWasher == 1)
+      event = get_next_event(current_state, currentTimeSeconds);
+    }
+  }else if (timerSeconds - currentTimeSeconds > 2) {
+    event = EV_TIME_OVER_2;
+  }else { // (timerSeconds - currentTimeSeconds < 2)
+    event = get_next_event(current_state, currentTimeSeconds);
   }
-  // ================ Need to add a condition depending on a timer (1 second) ================
-  else if (acq == 0) {
-    event = EV_ACQ_TIMEOUT;
-  }
-
-
-
-
   return event;
 }
 
@@ -98,12 +117,15 @@ int main(void)
     int ret = 0; 
     int event = EV_NONE;
     int state = ST_INIT;
+
+    time_t currentTime = time(NULL);
+    unsigned long currentTimeSeconds = difftime(currentTime, 0);
     
     /* While FSM hasn't reach end state */
     while (state != ST_TERM) {
         
         /* Get event */
-        event = get_next_event(state);
+        event = get_next_event(state, currentTimeSeconds);
         
         /* For each transitions */
         for (i = 0; i < TRANS_COUNT; i++) {
