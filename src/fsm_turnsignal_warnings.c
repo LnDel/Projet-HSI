@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <time.h>
-#include "bcgv_lib.c"
+#include "bcgv_lib.h"
 
 /* States */
 typedef enum {
