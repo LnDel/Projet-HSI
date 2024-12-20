@@ -23,7 +23,7 @@ typedef enum
 
 typedef uint8_t crc_t;
 
-typedef uint8_t id_t;
+typedef uint8_t id_msg_t;
 
 typedef enum 
  { OFF = 0, ON = 1 } activation_t;
@@ -56,11 +56,11 @@ typedef struct {
     rpm_t  rpm;
     battery_pb_t problemBattery;
     crc_t crc8;
-    id_t idMsgBcgvToBgf1;
-    id_t idMsgBcgvToBgf2;
-    id_t idMsgBcgvToBgf3;
-    id_t idMsgBcgvToBgf4;
-    id_t idMsgBcgvToBgf5;
+    id_msg_t idMsgBcgvToBgf1;
+    id_msg_t idMsgBcgvToBgf2;
+    id_msg_t idMsgBcgvToBgf3;
+    id_msg_t idMsgBcgvToBgf4;
+    id_msg_t idMsgBcgvToBgf5;
     activation_t activationPositionLights;
     activation_t activationLowBeams;
     activation_t activationHighBeams;
@@ -123,15 +123,15 @@ battery_pb_t get_problemBattery(void) { return bcgv_data.problemBattery; }
 
 crc_t get_crc8(void) { return bcgv_data.crc8; }
 
-id_t get_idMsgBcgvToBgf1(void) { return bcgv_data.idMsgBcgvToBgf1; }
+id_msg_t get_idMsgBcgvToBgf1(void) { return bcgv_data.idMsgBcgvToBgf1; }
 
-id_t get_idMsgBcgvToBgf2(void) { return bcgv_data.idMsgBcgvToBgf2; }
+id_msg_t get_idMsgBcgvToBgf2(void) { return bcgv_data.idMsgBcgvToBgf2; }
 
-id_t get_idMsgBcgvToBgf3(void) { return bcgv_data.idMsgBcgvToBgf3; }
+id_msg_t get_idMsgBcgvToBgf3(void) { return bcgv_data.idMsgBcgvToBgf3; }
 
-id_t get_idMsgBcgvToBgf4(void) { return bcgv_data.idMsgBcgvToBgf4; }
+id_msg_t get_idMsgBcgvToBgf4(void) { return bcgv_data.idMsgBcgvToBgf4; }
 
-id_t get_idMsgBcgvToBgf5(void) { return bcgv_data.idMsgBcgvToBgf5; }
+id_msg_t get_idMsgBcgvToBgf5(void) { return bcgv_data.idMsgBcgvToBgf5; }
 
 activation_t get_activationPositionLights(void) { return bcgv_data.activationPositionLights; }
 
@@ -301,7 +301,7 @@ short int set_crc8(crc_t value) {
     return 0;
 }
 
-short int set_idMsgBcgvToBgf1(id_t value) {
+short int set_idMsgBcgvToBgf1(id_msg_t value) {
     if (value >= 1 && value <= 5) {
         bcgv_data.idMsgBcgvToBgf1 = value;
         return 1;
@@ -309,7 +309,7 @@ short int set_idMsgBcgvToBgf1(id_t value) {
     return 0;
 }
 
-short int set_idMsgBcgvToBgf2(id_t value) {
+short int set_idMsgBcgvToBgf2(id_msg_t value) {
     if (value >= 1 && value <= 5) {
         bcgv_data.idMsgBcgvToBgf2 = value;
         return 1;
@@ -317,7 +317,7 @@ short int set_idMsgBcgvToBgf2(id_t value) {
     return 0;
 }
 
-short int set_idMsgBcgvToBgf3(id_t value) {
+short int set_idMsgBcgvToBgf3(id_msg_t value) {
     if (value >= 1 && value <= 5) {
         bcgv_data.idMsgBcgvToBgf3 = value;
         return 1;
@@ -325,7 +325,7 @@ short int set_idMsgBcgvToBgf3(id_t value) {
     return 0;
 }
 
-short int set_idMsgBcgvToBgf4(id_t value) {
+short int set_idMsgBcgvToBgf4(id_msg_t value) {
     if (value >= 1 && value <= 5) {
         bcgv_data.idMsgBcgvToBgf4 = value;
         return 1;
@@ -333,7 +333,7 @@ short int set_idMsgBcgvToBgf4(id_t value) {
     return 0;
 }
 
-short int set_idMsgBcgvToBgf5(id_t value) {
+short int set_idMsgBcgvToBgf5(id_msg_t value) {
     if (value >= 1 && value <= 5) {
         bcgv_data.idMsgBcgvToBgf5 = value;
         return 1;
