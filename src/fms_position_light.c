@@ -10,7 +10,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
-// #include <variables.h>
+#include <time.h>
+
+#include "bcgv_lib.c"
 
 /* States */
 typedef enum {
@@ -82,7 +84,7 @@ tTransition trans[] = {
 
 #define TRANS_COUNT (sizeof(trans)/sizeof(*trans))
 
-int get_next_event(int current_state)
+int get_next_event(int currentState, time_t currentTime)
 {
   int event = EV_NONE;
   
@@ -91,14 +93,17 @@ int get_next_event(int current_state)
 
   if(cmd == 0) {
     event = EV_CMD0;
-  }else if (acq != NULL) {
+  }else if (currentState == ST_ON) {
+    unsigned long currentTimeSeconds = difftime(currentTime, 0);
+    time_t timer = time(NULL);
+    unsigned long timerSeconds = difftime(timer, 0);
     if (acq == 1) {
       event = EV_ACQ_RECEIVED;
     }
-// ================ Need to add a condition depending on a timer (1 second) ================
-    else { // acq == 0 and maybe the condition is in the function getActivationPositionLight() then no need here
+    else if (timerSeconds - currentTimeSeconds > 1) { // get the timeout event if there is no response since 1 second
       event = EV_ACQ_TIMEOUT;
     }
+    else event = get_next_event(currentState, currentTime);
   }else if (cmd == 1) {
     event = EV_CMD1;
   }else event = EV_ERR; 
@@ -115,7 +120,8 @@ int main(void)
   /* While FSM hasn't reach end state */
   while (state != ST_TERM) {
     /* Get event */
-    event = get_next_event(state);
+    time_t currentTime = time(NULL);
+    event = get_next_event(state, currentTime);
     
     /* For each transitions */
     for (i = 0; i < TRANS_COUNT; i++) {
