@@ -82,7 +82,6 @@ def generate_h_code(data):
     return header
 
 
-
 c_code = generate_c_code(data)
 h_code = generate_h_code(data)
 
@@ -91,5 +90,8 @@ with open("src/bcgv_lib.c", "w") as file:
 with open("src/bcgv_lib.h", "w") as file:
     file.write(h_code)
 
+
+with open("src/bcgv_lib.h", "w") as file:
+    file.write(h_code)
 
 print("Succes")
