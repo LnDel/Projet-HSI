@@ -332,7 +332,6 @@ short int set_idMsgBcgvToBgf4(id_msg_t value) {
     }
     return 0;
 }
-
 short int set_idMsgBcgvToBgf5(id_msg_t value) {
     if (value >= 1 && value <= 5) {
         bcgv_data.idMsgBcgvToBgf5 = value;
