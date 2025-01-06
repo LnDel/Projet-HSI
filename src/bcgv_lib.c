@@ -55,7 +55,7 @@ typedef struct {
     tank_level_t  tankLevel;
     rpm_t  rpm;
     battery_pb_t problemBattery;
-    crc_t crc8;
+    crc_t receivedCrc8;
     id_msg_t idMsgBcgvToBgf1;
     id_msg_t idMsgBcgvToBgf2;
     id_msg_t idMsgBcgvToBgf3;
@@ -121,7 +121,7 @@ rpm_t  get_rpm(void) { return bcgv_data.rpm; }
 
 battery_pb_t get_problemBattery(void) { return bcgv_data.problemBattery; }
 
-crc_t get_crc8(void) { return bcgv_data.crc8; }
+crc_t get_receivedCrc8(void) { return bcgv_data.receivedCrc8; }
 
 id_msg_t get_idMsgBcgvToBgf1(void) { return bcgv_data.idMsgBcgvToBgf1; }
 
@@ -293,9 +293,9 @@ short int set_problemBattery(battery_pb_t value) {
     return 0;
 }
 
-short int set_crc8(crc_t value) {
+short int set_receivedCrc8(crc_t value) {
     if (value >= 0 && value <= 255) {
-        bcgv_data.crc8 = value;
+        bcgv_data.receivedCrc8 = value;
         return 1;
     }
     return 0;
@@ -332,6 +332,7 @@ short int set_idMsgBcgvToBgf4(id_msg_t value) {
     }
     return 0;
 }
+
 short int set_idMsgBcgvToBgf5(id_msg_t value) {
     if (value >= 1 && value <= 5) {
         bcgv_data.idMsgBcgvToBgf5 = value;
@@ -549,7 +550,7 @@ void init_BCGV_Data(void) {
     bcgv_data.tankLevel = 0;
     bcgv_data.rpm = 0;
     bcgv_data.problemBattery = 0;
-    bcgv_data.crc8 = 0;
+    bcgv_data.receivedCrc8 = 0;
     bcgv_data.idMsgBcgvToBgf1 = 1;
     bcgv_data.idMsgBcgvToBgf2 = 2;
     bcgv_data.idMsgBcgvToBgf3 = 3;
