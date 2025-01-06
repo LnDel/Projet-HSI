@@ -20,7 +20,7 @@ typedef enum {
   ST_WIPER_AND_WASHER_ON= 3,
   ST_TIMERWIPER_AND_WASHEROFF= 4,
   ST_TERM = 255,                 /* Final state */
-} fsm_state_t;
+} windshield_state_t;
 /* Events */
 typedef enum {
   EV_ANY = -1,                            /* Any event */
@@ -32,16 +32,34 @@ typedef enum {
   EV_TIME_UNDER_2=5,
   EV_TIME_OVER_2=6,
   EV_ERR = 255                            /* Error event */
-} fsm_event_t;
+} windshield_event_t;
 /* Callback functions called on transitions */
-static int callback1 (void) { printf("callback1"); };
-static int callback2 (void) { printf("callback2");};
-static int callback3 (void) { printf("callback3"); };
-static int FsmError(void) {   printf("ERREUR");};
+static int callback1 (void) { //ST_ALLOFF
+  printf("Windshield wiper and washer turned off\n");
+  set_activationShieldWasher(0);
+  set_activationShieldWiper(0);
+};
+static int callback2 (void) { //ST_WINDSHIELDWIPER_ON
+printf("Windshield wiper turned on\n");
+  set_activationShieldWiper(1); 
+};
+static int callback3 (void) { //ST_WIPER_AND_WASHER_ON
+  printf("Windshield wiper and washer turned on\n");
+  set_activationShieldWasher(1);
+  set_activationShieldWasher(1);
+};
+static int callback4 (void) { //ST_TIMERWIPER_AND_WASHEROFF
+  printf("Windshield wiper timer and washer turned off\n");
+  set_activationShieldWasher(1);
+  set_activationShieldWasher(0);
+};
+static int FsmError(void) {   
+  printf("ERREUR");
+};
 /* Transition structure */
 typedef struct {
-    fsm_state_t state;
-    fsm_event_t event;
+    windshield_state_t state;
+    windshield_event_t event;
     int (*callback)(void);
     int next_state;
 } tTransition;
@@ -50,23 +68,23 @@ tTransition trans[] = {
   /* These are examples */
   { ST_INIT, EV_ANY, &callback1, ST_ALLOFF},
   { ST_ALLOFF, EV_CMD_WI1, &callback2, ST_WINDSHIELDWIPER_ON},
-  { ST_ALLOFF, EV_CMD_WA1, &callback2, ST_WIPER_AND_WASHER_ON},
-  { ST_TIMERWIPER_AND_WASHEROFF, EV_CMD_WA1, &callback2, ST_WIPER_AND_WASHER_ON},
-  { ST_TIMERWIPER_AND_WASHEROFF, EV_TIME_OVER_2, &callback3, ST_ALLOFF},
-  { ST_TIMERWIPER_AND_WASHEROFF, EV_TIME_UNDER_2, &callback2, ST_TIMERWIPER_AND_WASHEROFF},
-  { ST_WIPER_AND_WASHER_ON, EV_CMD_WA1, &callback1, ST_WIPER_AND_WASHER_ON},
-  { ST_WIPER_AND_WASHER_ON, EV_CMD_WA0, &callback1, ST_TIMERWIPER_AND_WASHEROFF},
+  { ST_ALLOFF, EV_CMD_WA1, &callback3, ST_WIPER_AND_WASHER_ON},
+  { ST_TIMERWIPER_AND_WASHEROFF, EV_CMD_WA1, &callback3, ST_WIPER_AND_WASHER_ON},
+  { ST_TIMERWIPER_AND_WASHEROFF, EV_TIME_OVER_2, &callback1, ST_ALLOFF},
+  { ST_TIMERWIPER_AND_WASHEROFF, EV_TIME_UNDER_2, &callback4, ST_TIMERWIPER_AND_WASHEROFF},
+  { ST_WIPER_AND_WASHER_ON, EV_CMD_WA1, &callback3, ST_WIPER_AND_WASHER_ON},
+  { ST_WIPER_AND_WASHER_ON, EV_CMD_WA0, &callback4, ST_TIMERWIPER_AND_WASHEROFF},
   { ST_WINDSHIELDWIPER_ON, EV_CMD_WA1, &callback3, ST_WIPER_AND_WASHER_ON},
-  { ST_WINDSHIELDWIPER_ON, EV_CMD_WI0, &callback3, ST_ALLOFF},
+  { ST_WINDSHIELDWIPER_ON, EV_CMD_WI0, &callback1, ST_ALLOFF},
   { ST_ANY, EV_ERR, &FsmError, ST_TERM}
 };
 #define TRANS_COUNT (sizeof(trans)/sizeof(*trans))
-int get_next_event(int current_state, long unsigned currentTimeSeconds)
+windshield_event_t get_next_event(windshield_state_t current_state, long unsigned currentTimeSeconds)
 {
-  int event = EV_NONE;
+  windshield_event_t event = EV_NONE;
   cmd_t cmdWasher = get_cmdWindShieldWasher(); // get the cmd parameter for the windshield washer
   cmd_t cmdWiper = get_cmdWindShieldWiper(); // get the cmd parameter for the windshield wiper
-  activation_t acq = getActivationPositionLight(); // get the acq parameter
+  indicator_t acq = getIndicatorPositionLight(); // get the acq parameter
   time_t timer = time(NULL);
   unsigned long timerSeconds = difftime(timer, 0);
   if(cmdWasher == 0 && cmdWiper == 0){
@@ -98,26 +116,20 @@ int get_next_event(int current_state, long unsigned currentTimeSeconds)
   }
   return event;
 }
-int main(void)
+windshield_state_t main_fsm_windshield(currentState)
 {
-  int i = 0;
   int ret = 0; 
-  int event = EV_NONE;
-  int state = ST_INIT;
+  windshield_state_t state = currentState;
+  windshield_event_t event = get_next_event(state, time(NULL));
   time_t currentTime;
   unsigned long currentTimeSeconds;
-  
-  /* While FSM hasn't reach end state */
-  while (state != ST_TERM) {
-      
-    /* Get event */
 
     currentTime = time(NULL);
     currentTimeSeconds = difftime(currentTime, 0);
     event = get_next_event(state, currentTimeSeconds);
     
     /* For each transitions */
-    for (i = 0; i < TRANS_COUNT; i++) {
+    for (int i = 0; i < TRANS_COUNT; i++) {
       /* If State is current state OR The transition applies to all states ...*/
       if ((state == trans[i].state) || (ST_ANY == trans[i].state)) {
         /* If event is the transition event OR the event applies to all */
@@ -130,7 +142,6 @@ int main(void)
           }
           break;
         }
-      }
     }
   }
   return ret;
