@@ -318,7 +318,7 @@
         },
         {
             "id": 17,
-            "name": "crc8",
+            "name": "receivedCrc8",
             "type": "crc_t",
             "dimension": 0,
             "initValue" : 0,

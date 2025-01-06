@@ -54,7 +54,7 @@ typedef struct {
     tank_level_t  tankLevel;
     rpm_t  rpm;
     battery_pb_t problemBattery;
-    crc_t crc8;
+    crc_t receivedCrc8;
     id_msg_t idMsgBcgvToBgf1;
     id_msg_t idMsgBcgvToBgf2;
     id_msg_t idMsgBcgvToBgf3;
@@ -118,7 +118,7 @@ rpm_t  get_rpm(void);
 
 battery_pb_t get_problemBattery(void);
 
-crc_t get_crc8(void);
+crc_t get_receivedCrc8(void);
 
 id_msg_t get_idMsgBcgvToBgf1(void);
 
@@ -210,7 +210,7 @@ short int set_rpm(rpm_t  value);
 
 short int set_problemBattery(battery_pb_t value);
 
-short int set_crc8(crc_t value);
+short int set_receivedCrc8(crc_t value);
 
 short int set_idMsgBcgvToBgf1(id_msg_t value);
 
