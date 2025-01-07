@@ -41,9 +41,9 @@ typedef struct {
     windshield_event_t event;
     int (*callback)(void);
     int next_state;
-} tTransition;
+} windshield_transition;
 /* Transition table */
-tTransition trans[] = {
+static windshield_transition trans[] = {
     { ST_INIT_WINDSHIELD, EV_ANY_WINDSHIELD, &callback1, ST_ALLOFF_WINDSHIELD },
     { ST_ALLOFF_WINDSHIELD, EV_CMD_WI1_WINDSHIELD, &callback2, ST_WINDSHIELDWIPER_ON_WINDSHIELD },
     { ST_ALLOFF_WINDSHIELD, EV_CMD_WA1_WINDSHIELD, &callback3, ST_WIPER_AND_WASHER_ON_WINDSHIELD },
