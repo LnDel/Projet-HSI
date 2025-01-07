@@ -2,23 +2,24 @@
 #include <stdio.h>
 #include "checksum.h"
 #include "bcgv_lib.h" 
+#include "drv_api.h"
 
-void decode_comodo_to_bcgv(uint8_t*);
-void decode_mux_to_bcgv(uint8_t*);
+void decode_comodo_to_bcgv(serial_frame_t);
+is_valid_frame_t decode_mux_to_bcgv(uint8_t*);
 
-void decode_comodo_to_bcgv(uint8_t* frame) {
+void decode_comodo_to_bcgv(serial_frame_t frame) {
 
-    set_cmdWarning(frame[0]);               
-    set_cmdPositionLights(frame[1]);
-    set_cmdLowBeams(frame[2]);
-    set_cmdHighBeams(frame[3]);      
-    set_cmdRightTurnSignal(frame[4]);
-    set_cmdLeftTurnSignal(frame[5]);
-    set_cmdWindShieldWiper(frame[6]);
-    set_cmdWindShieldWasher(frame[7]);
+    set_cmdWarning(frame.frame[0]);               
+    set_cmdPositionLights(frame.frame[1]);
+    set_cmdLowBeams(frame.frame[2]);
+    set_cmdHighBeams(frame.frame[3]);      
+    set_cmdRightTurnSignal(frame.frame[4]);
+    set_cmdLeftTurnSignal(frame.frame[5]);
+    set_cmdWindShieldWiper(frame.frame[6]);
+    set_cmdWindShieldWasher(frame.frame[7]);
 }
 
-void decode_mux_to_bcgv(uint8_t* frame) {
+is_valid_frame_t decode_mux_to_bcgv(uint8_t* frame) {
 
     // Check if the CRC8 is valid
     crc_t received_crc = frame[14];
@@ -26,7 +27,7 @@ void decode_mux_to_bcgv(uint8_t* frame) {
 
     if (received_crc != calculated_crc) {
         printf("CRC8 mismatch: received 0x%02X, calculated 0x%02X\n", received_crc, calculated_crc);
-        return;
+        return INVALID;
     }
 
     set_frameNumber(frame[0]);
@@ -48,4 +49,6 @@ void decode_mux_to_bcgv(uint8_t* frame) {
     set_problemBattery(frame[13]);
 
     set_receivedCrc8(received_crc);
+
+    return VALID;
 }
