@@ -11,11 +11,11 @@ typedef uint32_t mileage_t;
 
 typedef uint8_t speed_t;
 
+typedef uint8_t tank_level_t;
+
 typedef enum { NO_CHASSIS_PROBLEM = 0, PRESSURE_TIRES = 1, CAR_BRAKE = 2 } chassis_pb_t;
 
 typedef enum { NO_MOTOR_PROBLEM = 0, PRESSURE_DEFECT = 1, COOLANT = 2, OVERHEATING_OIL = 3 } motor_pb_t;
-
-typedef uint8_t tank_level_t;
 
 typedef uint32_t rpm_t;
 
@@ -51,8 +51,8 @@ typedef struct {
     speed_t speed;
     chassis_pb_t problemChassis;
     motor_pb_t problemMotor;
-    tank_level_t  tankLevel;
-    rpm_t  rpm;
+    tank_level_t tankLevel;
+    rpm_t rpm;
     battery_pb_t problemBattery;
     crc_t receivedCrc8;
     id_msg_t idMsgBcgvToBgf1;
@@ -84,6 +84,8 @@ typedef struct {
     display_speed_t displaySpeed;
     display_tank_level_t displayTankLevel;
     display_rpm_t displayRpm;
+    indicator_t indicatorRightTurnSignal;
+    indicator_t indicatorLeftTurnSignal;
 } BCGV_Data_t;
 
 cmd_t get_cmdWarning(void);
@@ -112,9 +114,9 @@ chassis_pb_t get_problemChassis(void);
 
 motor_pb_t get_problemMotor(void);
 
-tank_level_t  get_tankLevel(void);
+tank_level_t get_tankLevel(void);
 
-rpm_t  get_rpm(void);
+rpm_t get_rpm(void);
 
 battery_pb_t get_problemBattery(void);
 
@@ -178,6 +180,10 @@ display_tank_level_t get_displayTankLevel(void);
 
 display_rpm_t get_displayRpm(void);
 
+indicator_t get_indicatorRightTurnSignal(void);
+
+indicator_t get_indicatorLeftTurnSignal(void);
+
 short int set_cmdWarning(cmd_t value);
 
 short int set_cmdPositionLights(cmd_t value);
@@ -204,9 +210,9 @@ short int set_problemChassis(chassis_pb_t value);
 
 short int set_problemMotor(motor_pb_t value);
 
-short int set_tankLevel(tank_level_t  value);
+short int set_tankLevel(tank_level_t value);
 
-short int set_rpm(rpm_t  value);
+short int set_rpm(rpm_t value);
 
 short int set_problemBattery(battery_pb_t value);
 
@@ -269,6 +275,10 @@ short int set_displaySpeed(display_speed_t value);
 short int set_displayTankLevel(display_tank_level_t value);
 
 short int set_displayRpm(display_rpm_t value);
+
+short int set_indicatorRightTurnSignal(indicator_t value);
+
+short int set_indicatorLeftTurnSignal(indicator_t value);
 
 void init_BCGV_Data(void);
 
