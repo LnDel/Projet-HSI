@@ -66,7 +66,7 @@ static left_turnsignal_transition trans[] = {
 left_turn_signal_event_t get_next_event_leftturnsignal(left_turn_signal_state_t currentState, unsigned long currentTimeSeconds) {
     left_turn_signal_event_t event = EV_NONE_LEFT_TURNSIGNAL;
     cmd_t cmd = get_cmdLeftTurnSignal(); // Get the cmd parameter
-    indicator_t acq = getIndicatorLeftTurnSignal(); // Get the acq parameter
+    indicator_t acq = get_indicatorLeftTurnSignal(); // Get the acq parameter
 
     time_t timer = time(NULL);
     unsigned long timerSeconds = difftime(timer, 0);
@@ -112,9 +112,6 @@ left_turn_signal_state_t main_fsm_left_turnsignal(left_turn_signal_state_t curre
     int ret = 0;
     left_turn_signal_state_t state = currentState;
     left_turn_signal_event_t event = get_next_event_leftturnsignal(state, time(NULL));
-
-    time_t currentTime = time(NULL);
-    unsigned long currentTimeSeconds = difftime(currentTime, 0);
 
     /* Process transitions */
     for (int i = 0; i < TRANS_COUNT; i++) {

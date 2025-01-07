@@ -21,12 +21,12 @@ static int callback1(void) { // ST_OFF_RIGHT_TURNSIGNAL
 
 static int callback2(void) { // ST_ACTIVATED_AND_ON_RIGHT_TURNSIGNAL
     set_activationRightTurnSignal(1);
-    set_IndicatorRightTurnSignal(1);
+    set_indicatorRightTurnSignal(1);
     return 0;
 }
 
 static int callback3(void) { // ST_ACQUITTED_RIGHT_TURNSIGNAL
-    set_IndicatorRightTurnSignal(1);
+    set_indicatorRightTurnSignal(1);
     return 0;
 }
 
@@ -66,7 +66,7 @@ static right_turnsignal_transition trans[] = {
 right_turn_signal_event_t get_next_event_rightturnsignal(right_turn_signal_state_t currentState, unsigned long currentTimeSeconds) {
     right_turn_signal_event_t event = EV_NONE_RIGHT_TURNSIGNAL;
     cmd_t cmd = get_cmdRightTurnSignal(); // Get the cmd parameter
-    indicator_t acq = getIndicatorRightTurnSignal(); // Get the acq parameter
+    indicator_t acq = get_indicatorRightTurnSignal(); // Get the acq parameter
 
     time_t timer = time(NULL);
     unsigned long timerSeconds = difftime(timer, 0);
@@ -112,9 +112,6 @@ right_turn_signal_state_t main_fsm_right_turnsignal(right_turn_signal_state_t cu
     int ret = 0;
     right_turn_signal_state_t state = currentState;
     right_turn_signal_event_t event = get_next_event_rightturnsignal(state, time(NULL));
-
-    time_t currentTime = time(NULL);
-    unsigned long currentTimeSeconds = difftime(currentTime, 0);
 
     /* Process transitions */
     for (int i = 0; i < TRANS_COUNT; i++) {
