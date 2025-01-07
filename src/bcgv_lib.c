@@ -38,6 +38,9 @@ typedef uint32_t display_tank_level_t;
 
 typedef uint32_t display_rpm_t;
 
+typedef enum 
+ { INVALID = 0, VALID = 1 } is_valid_frame_t;
+
 typedef struct {
     cmd_t cmdWarning;
     cmd_t cmdPositionLights;

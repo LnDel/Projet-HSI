@@ -185,7 +185,22 @@
                     "max": 1000
                 },
             "comment" : ""
+        },
+        {
+            "name": "is_valid_frame_t",
+            "type": "enum",
+            "enum": {
+                "INVALID": 0,
+                "VALID": 1
+            },
+            "declaration": "uint8_t",
+            "domain": {
+                    "min": 0,
+                    "max": 1
+                },
+            "comment" : ""
         }
+
     ],
     "datas":[
         {
