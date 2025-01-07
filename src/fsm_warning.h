@@ -37,7 +37,7 @@ typedef struct {
 } warning_transition;
 
 /* Function prototypes */
-warning_event_t get_next_event_warningsignal(warning_state_t currentState, unsigned long currentTimeSeconds);
-warning_state_t main_fsm_warningsignal(warning_state_t currentState);
+warning_event_t get_next_event_warning(warning_state_t currentState, unsigned long currentTimeSeconds);
+warning_state_t main_fsm_warning(warning_state_t currentState);
 
 #endif /* FSM_WARNING_H */
