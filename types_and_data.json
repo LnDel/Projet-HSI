@@ -40,6 +40,16 @@
             "comment" : ""
         },
         {
+            "name": "tank_level_t",
+            "type": "atom",
+            "declaration": "uint8_t",
+            "domain": {
+                    "min": 0,
+                    "max": 40
+                },
+            "comment" : ""
+        },
+        {
             "name": "chassis_pb_t",
             "type": "enum",
             "enum": {
@@ -67,16 +77,6 @@
             "domain": {
                     "min": 0,
                     "max": 3
-                },
-            "comment" : ""
-        },
-        {
-            "name": "tank_level_t",
-            "type": "atom",
-            "declaration": "uint8_t",
-            "domain": {
-                    "min": 0,
-                    "max": 40
                 },
             "comment" : ""
         },
@@ -295,7 +295,7 @@
         {
             "id": 14,
             "name": "tankLevel",
-            "type": "tank_level_t ",
+            "type": "tank_level_t",
             "dimension": 0,
             "initValue" : 0,
             "comment": ""
@@ -303,7 +303,7 @@
         {
             "id": 15,
             "name": "rpm",
-            "type": "rpm_t ",
+            "type": "rpm_t",
             "dimension": 0,
             "initValue" : 0,
             "comment": ""
@@ -552,6 +552,22 @@
             "id": 45,
             "name": "displayRpm",
             "type": "display_rpm_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 46,
+            "name": "indicatorRightTurnSignal",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 47,
+            "name": "indicatorLeftTurnSignal",
+            "type": "indicator_t",
             "dimension": 0,
             "initValue" : 0,
             "comment": ""

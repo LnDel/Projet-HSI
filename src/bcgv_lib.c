@@ -8,13 +8,13 @@ typedef uint32_t mileage_t;
 
 typedef uint8_t speed_t;
 
+typedef uint8_t tank_level_t;
+
 typedef enum 
  { NO_CHASSIS_PROBLEM = 0, PRESSURE_TIRES = 1, CAR_BRAKE = 2 } chassis_pb_t;
 
 typedef enum 
  { NO_MOTOR_PROBLEM = 0, PRESSURE_DEFECT = 1, COOLANT = 2, OVERHEATING_OIL = 3 } motor_pb_t;
-
-typedef uint8_t tank_level_t;
 
 typedef uint32_t rpm_t;
 
@@ -52,8 +52,8 @@ typedef struct {
     speed_t speed;
     chassis_pb_t problemChassis;
     motor_pb_t problemMotor;
-    tank_level_t  tankLevel;
-    rpm_t  rpm;
+    tank_level_t tankLevel;
+    rpm_t rpm;
     battery_pb_t problemBattery;
     crc_t receivedCrc8;
     id_msg_t idMsgBcgvToBgf1;
@@ -85,6 +85,8 @@ typedef struct {
     display_speed_t displaySpeed;
     display_tank_level_t displayTankLevel;
     display_rpm_t displayRpm;
+    indicator_t indicatorRightTurnSignal;
+    indicator_t indicatorLeftTurnSignal;
 } BCGV_Data_t;
 
 static BCGV_Data_t bcgv_data;
@@ -115,9 +117,9 @@ chassis_pb_t get_problemChassis(void) { return bcgv_data.problemChassis; }
 
 motor_pb_t get_problemMotor(void) { return bcgv_data.problemMotor; }
 
-tank_level_t  get_tankLevel(void) { return bcgv_data.tankLevel; }
+tank_level_t get_tankLevel(void) { return bcgv_data.tankLevel; }
 
-rpm_t  get_rpm(void) { return bcgv_data.rpm; }
+rpm_t get_rpm(void) { return bcgv_data.rpm; }
 
 battery_pb_t get_problemBattery(void) { return bcgv_data.problemBattery; }
 
@@ -180,6 +182,10 @@ display_speed_t get_displaySpeed(void) { return bcgv_data.displaySpeed; }
 display_tank_level_t get_displayTankLevel(void) { return bcgv_data.displayTankLevel; }
 
 display_rpm_t get_displayRpm(void) { return bcgv_data.displayRpm; }
+
+indicator_t get_indicatorRightTurnSignal(void) { return bcgv_data.indicatorRightTurnSignal; }
+
+indicator_t get_indicatorLeftTurnSignal(void) { return bcgv_data.indicatorLeftTurnSignal; }
 
 short int set_cmdWarning(cmd_t value) {
     if (value >= 0 && value <= 1) {
@@ -280,6 +286,22 @@ short int set_problemChassis(chassis_pb_t value) {
 short int set_problemMotor(motor_pb_t value) {
     if (value >= 0 && value <= 3) {
         bcgv_data.problemMotor = value;
+        return 1;
+    }
+    return 0;
+}
+
+short int set_tankLevel(tank_level_t value) {
+    if (value >= 0 && value <= 40) {
+        bcgv_data.tankLevel = value;
+        return 1;
+    }
+    return 0;
+}
+
+short int set_rpm(rpm_t value) {
+    if (value >= 0 && value <= 10000) {
+        bcgv_data.rpm = value;
         return 1;
     }
     return 0;
@@ -533,6 +555,22 @@ short int set_displayRpm(display_rpm_t value) {
     return 0;
 }
 
+short int set_indicatorRightTurnSignal(indicator_t value) {
+    if (value >= 0 && value <= 1) {
+        bcgv_data.indicatorRightTurnSignal = value;
+        return 1;
+    }
+    return 0;
+}
+
+short int set_indicatorLeftTurnSignal(indicator_t value) {
+    if (value >= 0 && value <= 1) {
+        bcgv_data.indicatorLeftTurnSignal = value;
+        return 1;
+    }
+    return 0;
+}
+
 void init_BCGV_Data(void) {
     bcgv_data.cmdWarning = 0;
     bcgv_data.cmdPositionLights = 0;
@@ -580,4 +618,6 @@ void init_BCGV_Data(void) {
     bcgv_data.displaySpeed = 0;
     bcgv_data.displayTankLevel = 0;
     bcgv_data.displayRpm = 0;
+    bcgv_data.indicatorRightTurnSignal = 0;
+    bcgv_data.indicatorLeftTurnSignal = 0;
 }

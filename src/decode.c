@@ -1,4 +1,6 @@
 #include <stdint.h>
+#include <stdio.h>
+#include "checksum.h"
 #include "bcgv_lib.h" 
 
 void decode_comodo_to_bcgv(uint8_t*);
@@ -20,7 +22,7 @@ void decode_mux_to_bcgv(uint8_t* frame) {
 
     // Check if the CRC8 is valid
     crc_t received_crc = frame[14];
-    crc_t calculated_crc = crc8(frame, 14);
+    crc_t calculated_crc = crc_8(frame, 14);
 
     if (received_crc != calculated_crc) {
         printf("CRC8 mismatch: received 0x%02X, calculated 0x%02X\n", received_crc, calculated_crc);
@@ -34,16 +36,16 @@ void decode_mux_to_bcgv(uint8_t* frame) {
 
     set_speed(frame[5]);
 
-    set_chassisIssues(frame[6]);
+    set_problemChassis(frame[6]);
 
-    set_engineIssues(frame[7]);
+    set_problemMotor(frame[7]);
 
-    set_fuelLevel(frame[8]);
+    set_tankLevel(frame[8]);
 
     rpm_t rpm =  (frame[9] << 24) | (frame[10] << 16) | (frame[11] << 8) | frame[12];
     set_rpm(rpm);
 
-    set_batteryIssues(frame[13]);
+    set_problemBattery(frame[13]);
 
-    set_crc8(received_crc);
+    set_receivedCrc8(received_crc);
 }
