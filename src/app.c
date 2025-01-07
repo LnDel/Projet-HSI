@@ -68,7 +68,7 @@ int main(void) {
         stateLeftTurnSignal = main_fsm_left_turnsignal(stateLeftTurnSignal);
         stateRightTurnSignal = main_fsm_right_turnsignal(stateRightTurnSignal);
         stateWarning = main_fsm_warning(stateWarning);
-        stateWindshield = main_fsm_windshield(stateWindshield);
+        //stateWindshield = main_fsm_windshield(stateWindshield);
         // Encode and write UDP
 
         // Encode and write serial line
