@@ -14,12 +14,16 @@ OBJ = $(patsubst $(srcdir)%.c, $(bindir)%.o, $(SRC))
 LIB = $(libdir)*.a
 
 # target
-all: $(LIB)
+all: script $(LIB)
+
+# Run the script
+script:
+	python3 ./script_generation.py
 
 # Creation static library
 $(LIB): $(OBJ)
 	$(AR) $@ $^
-	
+
 # Creation object files
 $(bindir)%.o: $(srcdir)%.c
 	$(CC) -c $< -o $@
