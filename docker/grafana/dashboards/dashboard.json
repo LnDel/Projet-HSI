@@ -1032,6 +1032,10 @@
                 "1": {
                   "color": "orange",
                   "index": 0
+                },
+                "2": {
+                  "color": "semi-dark-red",
+                  "index": 1
                 }
               },
               "type": "value"
@@ -1213,6 +1217,7 @@
             {
               "background": {
                 "color": {
+                  "field": "mqtt_consumer.voy_warn",
                   "fixed": "transparent"
                 },
                 "image": {
@@ -1226,7 +1231,6 @@
               },
               "config": {
                 "fill": {
-                  "field": "mqtt_consumer.voy_warn",
                   "fixed": "#D9D9D9"
                 },
                 "path": {
@@ -1392,7 +1396,7 @@
             {
               "background": {
                 "color": {
-                  "field": "mqtt_consumer.voy_bat_dech",
+                  "field": "batt_calc",
                   "fixed": "transparent"
                 }
               },
@@ -1427,7 +1431,7 @@
             {
               "background": {
                 "color": {
-                  "field": "mqtt_consumer.voy_pos",
+                  "field": "mqtt_consumer.voy_LDR",
                   "fixed": "transparent"
                 },
                 "image": {
@@ -1453,7 +1457,7 @@
                 "horizontal": "left",
                 "vertical": "top"
               },
-              "name": "Element 8",
+              "name": "LDR",
               "placement": {
                 "height": 90,
                 "left": 205,
@@ -1488,7 +1492,7 @@
                 "horizontal": "left",
                 "vertical": "top"
               },
-              "name": "Element 9",
+              "name": "Huile moteur",
               "placement": {
                 "height": 90,
                 "left": 305,
@@ -1714,7 +1718,7 @@
                 "horizontal": "left",
                 "vertical": "top"
               },
-              "name": "Element 14",
+              "name": "Lave_glace",
               "placement": {
                 "height": 90,
                 "left": 405,
@@ -1868,9 +1872,53 @@
                 ],
                 "type": "field"
               }
+            ],
+            [
+              {
+                "params": [
+                  "voy_pan_bat"
+                ],
+                "type": "field"
+              }
             ]
           ],
           "tags": []
+        }
+      ],
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "panne_batt_x2",
+            "binary": {
+              "left": "mqtt_consumer.voy_pan_bat",
+              "reducer": "sum",
+              "right": "mqtt_consumer.voy_pan_bat"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "batt_calc",
+            "binary": {
+              "left": "panne_batt_x2",
+              "reducer": "sum",
+              "right": "mqtt_consumer.voy_bat_dech"
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                "mqtt_consumer.voy_pan_bat"
+              ],
+              "reducer": "sum"
+            }
+          }
         }
       ],
       "transparent": true,
@@ -1907,6 +1955,6 @@
   "timezone": "",
   "title": "Tableau de bord",
   "uid": "Ixf95QSVk",
-  "version": 22,
+  "version": 28,
   "weekStart": ""
 }
