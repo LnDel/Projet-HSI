@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "bcgv_lib.h"
+#include <stdio.h>
 
 #define FRAME_SIZE 2
 #define BCGV_MUX_FRAME_SIZE 10
@@ -85,17 +86,17 @@ void encode_bcgv_to_mux(uint8_t* frame) {
     frame[1] |= (get_activationShieldWiper() & 0x01) << 1;
     frame[1] |= (get_activationShieldWasher() & 0x01);
 
-    mileage = get_displayMileage();
+    mileage = get_mileage();
     frame[2] = (mileage >> 24) & 0xFF;
     frame[3] = (mileage >> 16) & 0xFF;
     frame[4] = (mileage >> 8) & 0xFF;
     frame[5] = mileage & 0xFF;
 
-    speed = get_displaySpeed();
-    frame[6] = speed & 0xFF;
+    speed = get_speed();
+    frame[6] = speed;
 
-    tankLevel = get_displayTankLevel();
-    frame[7] = tankLevel & 0xFF;
+    tankLevel = get_tankLevel();
+    frame[7] = tankLevel;
 
     rpm = get_rpm();
     frame[8] = (rpm >> 8) & 0xFF;
