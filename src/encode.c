@@ -1,3 +1,10 @@
+/**
+ * \file    encode.c
+ * \brief   Encoding functions for COMODO and MUX frames to BCGV
+ * \details This file contains functions related to encoding frames
+ * \author  Hélène Delran-Garric
+*/
+
 #include <stdint.h>
 #include "bcgv_lib.h"
 #include <stdio.h>
@@ -73,7 +80,7 @@ void encode_bcgv_to_mux(uint8_t* frame) {
     frame[0] |= (get_indicatorFuel() & 0x01) << 4;
     frame[0] |= (get_indicatorMotorPb() & 0x01) << 3;
     frame[0] |= (get_indicatorTirePressure() & 0x01) << 2;
-    // Bits inutilisés (0 par défaut)
+    // Unused bit
     frame[0] |= (get_indicatorDischargedBattery() & 0x01);
 
     // Second byte
