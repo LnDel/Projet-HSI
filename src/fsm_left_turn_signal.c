@@ -109,9 +109,13 @@ left_turn_signal_event_t get_next_event_leftturnsignal(left_turn_signal_state_t 
 }
 
 left_turn_signal_state_t main_fsm_left_turnsignal(left_turn_signal_state_t currentState) {
-    int ret = 0;
     left_turn_signal_state_t state = currentState;
     left_turn_signal_event_t event = get_next_event_leftturnsignal(state, time(NULL));
+
+    // for the initialisation
+    if (state == ST_INIT_LEFT_TURNSIGNAL){
+        return ST_OFF_LEFT_TURNSIGNAL;
+    }
 
     /* Process transitions */
     for (int i = 0; i < TRANS_COUNT; i++) {
@@ -119,12 +123,11 @@ left_turn_signal_state_t main_fsm_left_turnsignal(left_turn_signal_state_t curre
             if ((event == trans[i].event) || (EV_ANY_LEFT_TURNSIGNAL == trans[i].event)) {
                 state = trans[i].next_state;
                 if (trans[i].callback != NULL) {
-                    ret = (trans[i].callback)();
+                    trans[i].callback();
                 }
                 break;
             }
         }
     }
-
-    return ret;
+    return state; // return the new state
 }

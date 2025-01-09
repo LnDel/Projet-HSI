@@ -109,9 +109,13 @@ right_turn_signal_event_t get_next_event_rightturnsignal(right_turn_signal_state
 }
 
 right_turn_signal_state_t main_fsm_right_turnsignal(right_turn_signal_state_t currentState) {
-    int ret = 0;
     right_turn_signal_state_t state = currentState;
     right_turn_signal_event_t event = get_next_event_rightturnsignal(state, time(NULL));
+
+    // for the initialisation
+    if (state == ST_INIT_RIGHT_TURNSIGNAL){
+        return ST_OFF_RIGHT_TURNSIGNAL;
+    }
 
     /* Process transitions */
     for (int i = 0; i < TRANS_COUNT; i++) {
@@ -119,12 +123,11 @@ right_turn_signal_state_t main_fsm_right_turnsignal(right_turn_signal_state_t cu
             if ((event == trans[i].event) || (EV_ANY_RIGHT_TURNSIGNAL == trans[i].event)) {
                 state = trans[i].next_state;
                 if (trans[i].callback != NULL) {
-                    ret = (trans[i].callback)();
+                    trans[i].callback();
                 }
                 break;
             }
         }
     }
-
-    return ret;
+    return state; // return the new state
 }

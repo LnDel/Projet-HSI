@@ -112,9 +112,13 @@ warning_event_t get_next_event_warning(warning_state_t currentState, unsigned lo
 }
 
 warning_state_t main_fsm_warning(warning_state_t currentState) {
-    int ret = 0;
     warning_state_t state = currentState;
     warning_event_t event = get_next_event_warning(state, time(NULL));
+
+  // for the initialisation
+  if (state == ST_INIT_WARNING){
+    return ST_OFF_WARNING;
+  }
 
     /* Process transitions */
     for (int i = 0; i < TRANS_COUNT; i++) {
@@ -122,12 +126,11 @@ warning_state_t main_fsm_warning(warning_state_t currentState) {
             if ((event == trans[i].event) || (EV_ANY_WARNING == trans[i].event)) {
                 state = trans[i].next_state;
                 if (trans[i].callback != NULL) {
-                    ret = (trans[i].callback)();
+                    trans[i].callback();
                 }
                 break;
             }
         }
     }
-
-    return ret;
+    return state; // return the new state
 }

@@ -94,11 +94,15 @@ windshield_event_t get_next_event_windshield(windshield_state_t current_state, l
 }
 
 windshield_state_t main_fsm_windshield(windshield_state_t currentState) {
-    int ret = 0;
     windshield_state_t state = currentState;
     windshield_event_t event = get_next_event_windshield(state, time(NULL));
     time_t currentTime;
     unsigned long currentTimeSeconds;
+
+    // for the initialisation
+    if (state == ST_INIT_WINDSHIELD){
+        return ST_ALLOFF_WINDSHIELD;
+    }
 
     currentTime = time(NULL);
     currentTimeSeconds = difftime(currentTime, 0);
@@ -112,12 +116,11 @@ windshield_state_t main_fsm_windshield(windshield_state_t currentState) {
                 /* Update the state and call the callback */
                 state = trans[i].next_state;
                 if (trans[i].callback != NULL) {
-                    ret = (trans[i].callback)();
+                    trans[i].callback();
                 }
                 break;
             }
         }
     }
-
-    return ret;
+    return state; // return the new state
 }
