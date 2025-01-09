@@ -4,6 +4,14 @@ MAKE = make
 # Target
 all: lib app
 
+# Run the programme
+run: 
+	./bin/app
+
+# Launch driver
+driver:
+	./bin/driver
+
 # Library compilation
 lib:
 	$(MAKE) -f Makefile_lib
