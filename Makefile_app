@@ -1,10 +1,11 @@
 # Folders
 srcdir = ./src/
+fsmdir = $(srcdir)fsm/
 bindir = ./bin/
 libdir = ./lib/
 
 # Commands
-CC = gcc -Wall
+CC = gcc -W -Wall -pedantic
 RM = rm -f
 
 # Specific files
@@ -22,6 +23,9 @@ $(PROG): $(OBJ)
 
 # Creation object files
 $(bindir)%.o: $(srcdir)%.c
+	$(CC) -c $< -o $@
+
+$(bindir)%.o: $(fsmdir)%.c
 	$(CC) -c $< -o $@
 
 clean:

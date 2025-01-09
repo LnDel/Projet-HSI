@@ -1,19 +1,21 @@
 # Folders
 srcdir = ./src/
+fsmdir = $(srcdir)fsm/
 bindir = ./bin/
 libdir = ./lib/
 
 # Commands
-CC = gcc -Wall
+CC = gcc -W -Wall -pedantic
 AR = ar rcs
 RM = rm -f
 
 # Specific files
-SRC = $(wildcard $(srcdir)*.c)
-OBJ = $(patsubst $(srcdir)%.c, $(bindir)%.o, $(SRC))
+SRC = $(wildcard $(srcdir)*.c) $(wildcard $(fsmdir)*.c)
+OBJ = $(patsubst $(srcdir)%.c, $(bindir)%.o, $(filter-out $(fsmdir)%.c, $(SRC)))
+OBJ += $(patsubst $(fsmdir)%.c, $(bindir)%.o, $(wildcard $(fsmdir)*.c))
 LIB = $(libdir)*.a
 
-# target
+# Target
 all: script $(LIB)
 
 # Run the script
@@ -26,6 +28,9 @@ $(LIB): $(OBJ)
 
 # Creation object files
 $(bindir)%.o: $(srcdir)%.c
+	$(CC) -c $< -o $@
+
+$(bindir)%.o: $(fsmdir)%.c
 	$(CC) -c $< -o $@
 
 clean:
