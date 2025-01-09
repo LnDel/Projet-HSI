@@ -1,5 +1,13 @@
+/**
+ * \file    app.c
+ * \brief   Main BCGV application.
+ * \details This application interacts with the driver to receive frames, update status and send return frames.
+ * \author  Warren Anderson, Samy Belbouab, Hélène Delran--Garric
+ */
+
 #include <stdint.h>
 #include <stdio.h>
+
 #include "drv_api.h"
 #include "bcgv_lib.h"
 
@@ -14,23 +22,19 @@
 #include "fsm_windshield.h"
 #include "fsm_warning.h"
 
-
-/**
- * \file    app.c
- * \brief   Application principale pour la lecture des trames UDP.
- * \details Cette application interagit avec le driver pour recevoir et afficher les trames.
- * \author  Votre Nom
- */
-
 int main(void) {
+
     uint16_t frameIndex;
+    uint32_t serialDataLen = 0;
+
     int32_t drvFd;
     int32_t readStatusUDP;
     int32_t readStatusSerial;
+
     uint8_t udpFrame[DRV_UDP_100MS_FRAME_SIZE];
-    serial_frame_t serialFrame[DRV_MAX_FRAMES];
+    serial_frame_t serialFrames[DRV_MAX_FRAMES];
     is_valid_frame_t isUdpValid;
-    uint32_t serialDataLen = 0;
+
     // Include les .h
     high_beams_state_t stateHighBeams = ST_INIT_high_beams;
     low_beams_state_t stateLowBeams = ST_INIT_low_beams;
@@ -40,7 +44,6 @@ int main(void) {
     right_turn_signal_state_t stateRightTurnSignal = ST_INIT_RIGHT_TURNSIGNAL;
     warning_state_t stateWarning = ST_INIT_WARNING;
 
-    
     // Initialization of all fields
     init_BCGV_Data();
 
@@ -75,14 +78,28 @@ int main(void) {
         }
 
         // Read serial frame
-        readStatusSerial = drv_read_ser(drvFd, serialFrame, &serialDataLen);
+        readStatusSerial = drv_read_ser(drvFd, serialFrames, &serialDataLen);
         if (readStatusSerial == DRV_ERROR) {
             fprintf(stderr, "Error: Unable to read serial frames.\n");
             break;
         }
 
-        // Decode serial line
-        //decode_comodo_to_bcgv(serialFrame);
+        // Process received frames
+        if (serialDataLen != 0)
+        {
+        
+            printf("\nReceived serial frames:\n");
+            for (uint32_t frameIndex = 0; frameIndex < serialDataLen; frameIndex++) {
+                printf("Frame %u (serNum: %u, frameSize: %zu):\n", frameIndex, serialFrames[frameIndex].serNum, serialFrames[frameIndex].frameSize);
+
+                for (size_t byteIndex = 0; byteIndex < serialFrames[frameIndex].frameSize; byteIndex++) {
+                    printf("\n%02X ", serialFrames[frameIndex].frame[byteIndex]);
+                }
+                printf("\n");
+
+                decode_comodo_to_bcgv(serialFrames[frameIndex].frame);
+            }
+        }
 
         // Update state machine
         stateHighBeams = main_fsm_high_beams(stateHighBeams);
@@ -92,6 +109,7 @@ int main(void) {
         stateRightTurnSignal = main_fsm_right_turnsignal(stateRightTurnSignal);
         stateWarning = main_fsm_warning(stateWarning);
         //stateWindshield = main_fsm_windshield(stateWindshield);
+
         // Encode and write UDP
 
         // Encode and write serial line
