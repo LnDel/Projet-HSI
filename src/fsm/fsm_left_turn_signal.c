@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <time.h>
-#include "bcgv_lib.h"
+#include "../bcgv_lib.h"
 #include "fsm_left_turn_signal.h"
 
 /* Callback functions called on transitions */

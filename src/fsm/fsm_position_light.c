@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "bcgv_lib.h"
+#include "../bcgv_lib.h"
 
 #include "fsm_position_light.h"
 

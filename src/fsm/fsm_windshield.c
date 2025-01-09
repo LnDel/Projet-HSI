@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <time.h>
-#include "bcgv_lib.h"
+#include "../bcgv_lib.h"
 #include "fsm_windshield.h"
 /* Callback functions called on transitions */
 static int callback1 (void) { //ST_ALLOFF

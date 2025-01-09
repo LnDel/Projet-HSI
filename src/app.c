@@ -14,13 +14,13 @@
 #include "decode.h"
 #include "encode.h"
 
-#include "fsm_high_beams.h"
-#include "fsm_low_beams.h"
-#include "fsm_position_light.h"
-#include "fsm_left_turn_signal.h"
-#include "fsm_right_turnsignal.h"
-#include "fsm_windshield.h"
-#include "fsm_warning.h"
+#include "fsm/fsm_high_beams.h"
+#include "fsm/fsm_low_beams.h"
+#include "fsm/fsm_position_light.h"
+#include "fsm/fsm_left_turn_signal.h"
+#include "fsm/fsm_right_turnsignal.h"
+#include "fsm/fsm_windshield.h"
+#include "fsm/fsm_warning.h"
 
 int main(void) {
 

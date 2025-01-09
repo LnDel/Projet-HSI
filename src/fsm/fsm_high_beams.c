@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "bcgv_lib.h"
+#include "../bcgv_lib.h"
 #include "fsm_high_beams.h"
 
 /* Callback functions called on transitions */

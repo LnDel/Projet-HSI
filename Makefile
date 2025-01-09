@@ -4,6 +4,9 @@ MAKE = make
 # Target
 all: lib app
 
+# Compile and run the programme
+all_do: all run
+
 # Run the programme
 run: 
 	./bin/app
