@@ -97,6 +97,11 @@ position_light_state_t main_fsm_position_light(position_light_state_t currentSta
   position_light_state_t state = currentState;
   position_light_event_t event = get_next_event_position_light(state, time(NULL));
 
+  // for the initialisation
+  if (state == ST_INIT_position_light){
+    return ST_OFF_position_light;
+  }
+
   for (int i = 0; i < TRANS_COUNT; i++) {
   /* If State is current state OR The transition applies to all states ...*/
     if ((state == trans[i].state) || (ST_ANY_position_light == trans[i].state)) {

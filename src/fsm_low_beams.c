@@ -98,6 +98,11 @@ low_beams_state_t main_fsm_low_beams(low_beams_state_t currentState)
   low_beams_state_t state = currentState;
   low_beams_event_t event = get_next_event_low_beams(state, time(NULL));
 
+  // for the initialisation
+  if (state == ST_INIT_low_beams){
+    return ST_OFF_low_beams;
+  }
+
   for (int i = 0; i < TRANS_COUNT; i++) {
   /* If State is current state OR The transition applies to all states ...*/
     if ((state == trans[i].state) || (ST_ANY_low_beams == trans[i].state)) {
