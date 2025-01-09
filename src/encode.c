@@ -2,6 +2,7 @@
 #include "bcgv_lib.h"
 
 #define FRAME_SIZE 2
+#define BCGV_MUX_FRAME_SIZE 10
 
 void encode_bcgv_to_bgf1(uint8_t* frame) {
 
@@ -53,4 +54,50 @@ int verify_acknowledgment(const uint8_t* sent_frame, const uint8_t* received_fra
     return 1;
 }
 
+void encode_bcgv_to_mux(uint8_t* frame) {
 
+    mileage_t mileage;
+    speed_t speed;
+    tank_level_t tankLevel;
+    rpm_t rpm;
+
+    for (int i = 0; i < BCGV_MUX_FRAME_SIZE; i++) {
+        frame[i] = 0x00;
+    }
+
+    // first byte
+    frame[0] |= (get_indicatorPositionLights() & 0x01) << 7;
+    frame[0] |= (get_indicatorLowBeams() & 0x01) << 6;
+    frame[0] |= (get_indicatorHighBeams() & 0x01) << 5;
+    frame[0] |= (get_indicatorFuel() & 0x01) << 4;
+    frame[0] |= (get_indicatorMotorPb() & 0x01) << 3;
+    frame[0] |= (get_indicatorTirePressure() & 0x01) << 2;
+    // Bits inutilisés (0 par défaut)
+    frame[0] |= (get_indicatorDischargedBattery() & 0x01);
+
+    // Second byte
+    frame[1] |= (get_indicatorWarning() & 0x01) << 7;
+    frame[1] |= (get_indicatorBatteryFailure() & 0x01) << 6;
+    frame[1] |= (get_indicatorTempLDR() & 0x01) << 5;
+    frame[1] |= (get_indicatorMotorPressure() & 0x01) << 4;
+    frame[1] |= (get_indicatorOilOverheating() & 0x01) << 3;
+    frame[1] |= (get_indicatorBrakeFailure() & 0x01) << 2;
+    frame[1] |= (get_activationShieldWiper() & 0x01) << 1;
+    frame[1] |= (get_activationShieldWasher() & 0x01);
+
+    mileage = get_displayMileage();
+    frame[2] = (mileage >> 24) & 0xFF;
+    frame[3] = (mileage >> 16) & 0xFF;
+    frame[4] = (mileage >> 8) & 0xFF;
+    frame[5] = mileage & 0xFF;
+
+    speed = get_displaySpeed();
+    frame[6] = speed & 0xFF;
+
+    tankLevel = get_displayTankLevel();
+    frame[7] = tankLevel & 0xFF;
+
+    rpm = get_rpm();
+    frame[8] = (rpm >> 8) & 0xFF;
+    frame[9] = rpm & 0xFF;     
+}

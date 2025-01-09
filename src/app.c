@@ -32,6 +32,7 @@ int main(void) {
     int32_t readStatusSerial;
 
     uint8_t udpFrame[DRV_UDP_100MS_FRAME_SIZE];
+    uint8_t udpWriteFrame[DRV_UDP_200MS_FRAME_SIZE];
     serial_frame_t serialFrames[DRV_MAX_FRAMES];
     is_valid_frame_t isUdpValid;
 
@@ -90,10 +91,10 @@ int main(void) {
         
             printf("\nReceived serial frames:\n");
             for (uint32_t frameIndex = 0; frameIndex < serialDataLen; frameIndex++) {
-                printf("Frame %u (serNum: %u, frameSize: %zu):\n", frameIndex, serialFrames[frameIndex].serNum, serialFrames[frameIndex].frameSize);
+                printf("Frame %u (serNum: %u, frameSize: %zu): ", frameIndex, serialFrames[frameIndex].serNum, serialFrames[frameIndex].frameSize);
 
                 for (size_t byteIndex = 0; byteIndex < serialFrames[frameIndex].frameSize; byteIndex++) {
-                    printf("\n%02X ", serialFrames[frameIndex].frame[byteIndex]);
+                    printf("%02X ", serialFrames[frameIndex].frame[byteIndex]);
                 }
                 printf("\n");
 
@@ -111,6 +112,12 @@ int main(void) {
         //stateWindshield = main_fsm_windshield(stateWindshield);
 
         // Encode and write UDP
+        encode_bcgv_to_mux(udpWriteFrame);
+        isUdpValid = drv_write_udp_200ms(drvFd, udpFrame);
+        if (isUdpValid != DRV_SUCCESS) {
+            fprintf(stderr, "Error: Failed to write UDP frame to driver\n");
+            break;
+        }
 
         // Encode and write serial line
 
