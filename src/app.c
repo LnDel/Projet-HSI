@@ -113,7 +113,7 @@ int main(void) {
 
         // Encode and write UDP
         encode_bcgv_to_mux(udpWriteFrame);
-        isUdpValid = drv_write_udp_200ms(drvFd, udpFrame);
+        isUdpValid = drv_write_udp_200ms(drvFd, udpWriteFrame);
         if (isUdpValid != DRV_SUCCESS) {
             fprintf(stderr, "Error: Failed to write UDP frame to driver\n");
             break;
