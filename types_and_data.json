@@ -5,7 +5,6 @@
             "type": "atom",
             "declaration": "uint8_t",
             "domain": {
-                    "min": 0,
                     "max": 1
                 },
             "comment" : ""
@@ -15,7 +14,6 @@
             "type": "atom",
             "declaration": "uint8_t",
             "domain": {
-                    "min": 0,
                     "max": 100
                 },
             "comment" : ""
@@ -25,7 +23,7 @@
             "type": "atom",
             "declaration": "uint32_t",
             "domain": {
-                    "min": 0
+                    "max": 500000
                 },
             "comment" : ""
         },
@@ -34,8 +32,7 @@
             "type": "atom",
             "declaration": "uint8_t",
             "domain": {
-                    "min": 0,
-                    "max": 255
+                    "max": 254
                 },
             "comment" : ""
         },
@@ -44,7 +41,6 @@
             "type": "atom",
             "declaration": "uint8_t",
             "domain": {
-                    "min": 0,
                     "max": 40
                 },
             "comment" : ""
@@ -59,7 +55,6 @@
             },
             "declaration": "uint8_t",
             "domain": {
-                    "min": 0,
                     "max": 2
                 },
             "comment" : ""
@@ -75,7 +70,6 @@
             },
             "declaration": "uint8_t",
             "domain": {
-                    "min": 0,
                     "max": 3
                 },
             "comment" : ""
@@ -85,7 +79,6 @@
             "type": "atom",
             "declaration": "uint32_t",
             "domain": {
-                    "min": 0,
                     "max": 10000
                 },
             "comment" : ""
@@ -100,7 +93,6 @@
             },
             "declaration": "uint8_t",
             "domain": {
-                    "min": 0,
                     "max": 2
                 },
             "comment" : ""
@@ -110,8 +102,7 @@
             "type": "atom",
             "declaration": "uint8_t",
             "domain": {
-                    "min": 0,
-                    "max": 255
+                    "max": 254
                 },
             "comment" : ""
         },
@@ -134,7 +125,6 @@
             },
             "declaration": "uint8_t",
             "domain": {
-                    "min": 0,
                     "max": 1
                 },
             "comment" : ""
@@ -144,7 +134,6 @@
             "type": "atom",
             "declaration": "uint8_t",
             "domain": {
-                    "min": 0,
                     "max": 1
                 },
             "comment" : ""
@@ -154,7 +143,7 @@
             "type": "atom",
             "declaration": "uint32_t",
             "domain": {
-                    "min": 0
+                    "max": 500000
                 },
             "comment" : ""
         },
@@ -163,7 +152,7 @@
             "type": "atom",
             "declaration": "uint32_t",
             "domain": {
-                    "min": 0
+                    "max": 200
                 },
             "comment" : ""
         },
@@ -172,7 +161,7 @@
             "type": "atom",
             "declaration": "uint32_t",
             "domain": {
-                    "min": 0
+                    "max": 500
                 },
             "comment" : ""
         },
@@ -181,8 +170,7 @@
             "type": "atom",
             "declaration": "uint32_t",
             "domain": {
-                    "min": 0,
-                    "max": 1000
+                    "max": 10000
                 },
             "comment" : ""
         },

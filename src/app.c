@@ -25,6 +25,7 @@
 int main(void) {
 
     uint16_t frameIndex;
+    uint16_t byteIndex;
     uint32_t serialDataLen = 0;
 
     int32_t drvFd;
@@ -35,6 +36,13 @@ int main(void) {
     uint8_t udpWriteFrame[DRV_UDP_200MS_FRAME_SIZE];
     serial_frame_t serialFrames[DRV_MAX_FRAMES];
     is_valid_frame_t isUdpValid;
+
+    uint8_t serialFrameBGF1[SER_MAX_FRAME_SIZE];
+    uint8_t serialFrameBGF2[SER_MAX_FRAME_SIZE];
+    uint8_t serialFrameBGF3[SER_MAX_FRAME_SIZE];
+    uint8_t serialFrameBGF4[SER_MAX_FRAME_SIZE];
+    uint8_t serialFrameBGF5[SER_MAX_FRAME_SIZE];
+    serial_frame_t serialFramesBGF[DRV_MAX_FRAMES];
 
     // Include les .h
     high_beams_state_t stateHighBeams = ST_INIT_high_beams;
@@ -90,10 +98,10 @@ int main(void) {
         {
         
             printf("\nReceived serial frames:\n");
-            for (uint32_t frameIndex = 0; frameIndex < serialDataLen; frameIndex++) {
+            for (frameIndex = 0; frameIndex < serialDataLen; frameIndex++) {
                 printf("Frame %u (serNum: %u, frameSize: %zu): ", frameIndex, serialFrames[frameIndex].serNum, serialFrames[frameIndex].frameSize);
 
-                for (size_t byteIndex = 0; byteIndex < serialFrames[frameIndex].frameSize; byteIndex++) {
+                for (byteIndex = 0; byteIndex < serialFrames[frameIndex].frameSize; byteIndex++) {
                     printf("%02X ", serialFrames[frameIndex].frame[byteIndex]);
                 }
                 printf("\n");
@@ -120,6 +128,23 @@ int main(void) {
         }
 
         // Encode and write serial line
+        // todo : déclarer les var au début de la fonction, nombre magique, à corriger pour que ça fonctionn
+        encode_bcgv_to_bgf1(serialFrameBGF1);
+        encode_bcgv_to_bgf2(serialFrameBGF2);
+        encode_bcgv_to_bgf3(serialFrameBGF3);
+        encode_bcgv_to_bgf4(serialFrameBGF4);
+        encode_bcgv_to_bgf5(serialFrameBGF5);
+
+        uint8_t* frames[5] = {serialFrameBGF1, serialFrameBGF2, serialFrameBGF3, serialFrameBGF4, serialFrameBGF5};
+        for (size_t j = 0; j < 5; j++) {
+            serialFrames[j].serNum = j + 1;
+            serialFrames[j].frameSize = SER_MAX_FRAME_SIZE;
+            for (size_t i = 0; i < SER_MAX_FRAME_SIZE; i++) {
+                serialFrames[j].frame[i] = frames[j][i];
+            }
+        }
+
+        drv_write_ser(drvFd, serialFrames, 5);
 
         printf("\n");
     }
