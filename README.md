@@ -1,14 +1,19 @@
 # Projet-HSI
 
-Générer la librairie :
+Compiler le projet :
 ```bash
-python3 ./script_generation.py
+make
+```
+
+## Exécuter le driver
+
+Dans un premier terminal :
+```bash
+make driver
 ```
 
 ## Exécuter le main
+Dans un autre terminal :
 ```bash
-./bin/driver
-gcc -o app app.c libbcgv.a drv_api.a
-./bin/app
+make run
 ```
-
