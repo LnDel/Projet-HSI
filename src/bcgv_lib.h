@@ -88,6 +88,8 @@ typedef struct {
     display_rpm_t displayRpm;
     indicator_t indicatorRightTurnSignal;
     indicator_t indicatorLeftTurnSignal;
+    indicator_t indicatorShieldWiper;
+    indicator_t indicatorShieldWasher;
 } BCGV_Data_t;
 
 cmd_t get_cmdWarning(void);
@@ -186,6 +188,10 @@ indicator_t get_indicatorRightTurnSignal(void);
 
 indicator_t get_indicatorLeftTurnSignal(void);
 
+indicator_t get_indicatorShieldWiper(void);
+
+indicator_t get_indicatorShieldWasher(void);
+
 short int set_cmdWarning(cmd_t value);
 
 short int set_cmdPositionLights(cmd_t value);
@@ -281,6 +287,10 @@ short int set_displayRpm(display_rpm_t value);
 short int set_indicatorRightTurnSignal(indicator_t value);
 
 short int set_indicatorLeftTurnSignal(indicator_t value);
+
+short int set_indicatorShieldWiper(indicator_t value);
+
+short int set_indicatorShieldWasher(indicator_t value);
 
 void init_BCGV_Data(void);
 

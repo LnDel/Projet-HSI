@@ -90,6 +90,8 @@ typedef struct {
     display_rpm_t displayRpm;
     indicator_t indicatorRightTurnSignal;
     indicator_t indicatorLeftTurnSignal;
+    indicator_t indicatorShieldWiper;
+    indicator_t indicatorShieldWasher;
 } BCGV_Data_t;
 
 static BCGV_Data_t bcgv_data;
@@ -189,6 +191,10 @@ display_rpm_t get_displayRpm(void) { return bcgv_data.displayRpm; }
 indicator_t get_indicatorRightTurnSignal(void) { return bcgv_data.indicatorRightTurnSignal; }
 
 indicator_t get_indicatorLeftTurnSignal(void) { return bcgv_data.indicatorLeftTurnSignal; }
+
+indicator_t get_indicatorShieldWiper(void) { return bcgv_data.indicatorShieldWiper; }
+
+indicator_t get_indicatorShieldWasher(void) { return bcgv_data.indicatorShieldWasher; }
 
 short int set_cmdWarning(cmd_t value) {
     if (value <= 1) {
@@ -574,6 +580,22 @@ short int set_indicatorLeftTurnSignal(indicator_t value) {
     return 0;
 }
 
+short int set_indicatorShieldWiper(indicator_t value) {
+    if (value <= 1) {
+        bcgv_data.indicatorShieldWiper = value;
+        return 1;
+    }
+    return 0;
+}
+
+short int set_indicatorShieldWasher(indicator_t value) {
+    if (value <= 1) {
+        bcgv_data.indicatorShieldWasher = value;
+        return 1;
+    }
+    return 0;
+}
+
 void init_BCGV_Data(void) {
     bcgv_data.cmdWarning = 0;
     bcgv_data.cmdPositionLights = 0;
@@ -623,4 +645,6 @@ void init_BCGV_Data(void) {
     bcgv_data.displayRpm = 0;
     bcgv_data.indicatorRightTurnSignal = 0;
     bcgv_data.indicatorLeftTurnSignal = 0;
+    bcgv_data.indicatorShieldWiper = 0;
+    bcgv_data.indicatorShieldWasher = 0;
 }

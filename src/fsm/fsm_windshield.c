@@ -1,60 +1,77 @@
 /**
  * \file        fsm.c
- * \author      Alexis Daley
+ * \author      Warren Anderson
  * \version     0.4
  * \date        08 otober 2023
  * \brief       This is a template file to create a Finite State Machine.
  * \details
  */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <time.h>
 #include "../bcgv_lib.h"
 #include "fsm_windshield.h"
+
 /* Callback functions called on transitions */
-static int callback1 (void) { //ST_ALLOFF
+
+static int callback1 (void) { // ST_ALLOFF
   printf("Windshield wiper and washer turned off\n");
   set_activationShieldWasher(0);
+  set_indicatorShieldWasher(0);
   set_activationShieldWiper(0);
+  set_indicatorShieldWiper(0);
   return 0;
-};
-static int callback2 (void) { //ST_WINDSHIELDWIPER_ON
+}
+
+static int callback2 (void) { // ST_WINDSHIELDWIPER_ON
 printf("Windshield wiper turned on\n");
-  set_activationShieldWiper(1); 
+  set_activationShieldWiper(1);
+  set_indicatorShieldWiper(1);
   return 0;
-};
-static int callback3 (void) { //ST_WIPER_AND_WASHER_ON
+}
+
+static int callback3 (void) { // ST_WIPER_AND_WASHER_ON
   printf("Windshield wiper and washer turned on\n");
+  set_activationShieldWiper(1);
+  set_indicatorShieldWiper(1);
   set_activationShieldWasher(1);
-  set_activationShieldWasher(1);
+  set_indicatorShieldWasher(1);
   return 0;
-};
-static int callback4 (void) { //ST_TIMERWIPER_AND_WASHEROFF
+}
+
+static int callback4 (void) { // ST_TIMERWIPER_AND_WASHEROFF
   printf("Windshield wiper timer and washer turned off\n");
-  set_activationShieldWasher(1);
   set_activationShieldWasher(0);
+  set_indicatorShieldWasher(0);
   return 0;
-};
+}
+
 static int FsmError(void) {   
   printf("ERREUR");
   return -1;
-};
+}
+
 /* Transition table */
-static windshield_transition trans[] = {
+static windshield_transition_t trans_windshield[] = {
     { ST_INIT_WINDSHIELD, EV_ANY_WINDSHIELD, &callback1, ST_ALLOFF_WINDSHIELD },
+    { ST_ALLOFF_WINDSHIELD, EV_NONE_WINDSHIELD, &callback1, ST_ALLOFF_WINDSHIELD },
     { ST_ALLOFF_WINDSHIELD, EV_CMD_WI1_WINDSHIELD, &callback2, ST_WINDSHIELDWIPER_ON_WINDSHIELD },
     { ST_ALLOFF_WINDSHIELD, EV_CMD_WA1_WINDSHIELD, &callback3, ST_WIPER_AND_WASHER_ON_WINDSHIELD },
+    { ST_WINDSHIELDWIPER_ON_WINDSHIELD, EV_CMD_WI0_WINDSHIELD, &callback1, ST_ALLOFF_WINDSHIELD },
+    { ST_WINDSHIELDWIPER_ON_WINDSHIELD, EV_CMD_WI1_WINDSHIELD, &callback2, ST_WINDSHIELDWIPER_ON_WINDSHIELD },
+    { ST_WINDSHIELDWIPER_ON_WINDSHIELD, EV_CMD_WA1_WINDSHIELD, &callback3, ST_WIPER_AND_WASHER_ON_WINDSHIELD },
+    { ST_WIPER_AND_WASHER_ON_WINDSHIELD, EV_CMD_WA1_WINDSHIELD, &callback3, ST_WIPER_AND_WASHER_ON_WINDSHIELD },
+    { ST_WIPER_AND_WASHER_ON_WINDSHIELD, EV_CMD_WA0_WINDSHIELD, &callback4, ST_TIMERWIPER_AND_WASHEROFF_WINDSHIELD },
     { ST_TIMERWIPER_AND_WASHEROFF_WINDSHIELD, EV_CMD_WA1_WINDSHIELD, &callback3, ST_WIPER_AND_WASHER_ON_WINDSHIELD },
     { ST_TIMERWIPER_AND_WASHEROFF_WINDSHIELD, EV_TIME_OVER_2_WINDSHIELD, &callback1, ST_ALLOFF_WINDSHIELD },
     { ST_TIMERWIPER_AND_WASHEROFF_WINDSHIELD, EV_TIME_UNDER_2_WINDSHIELD, &callback4, ST_TIMERWIPER_AND_WASHEROFF_WINDSHIELD },
-    { ST_WIPER_AND_WASHER_ON_WINDSHIELD, EV_CMD_WA1_WINDSHIELD, &callback3, ST_WIPER_AND_WASHER_ON_WINDSHIELD },
-    { ST_WIPER_AND_WASHER_ON_WINDSHIELD, EV_CMD_WA0_WINDSHIELD, &callback4, ST_TIMERWIPER_AND_WASHEROFF_WINDSHIELD },
-    { ST_WINDSHIELDWIPER_ON_WINDSHIELD, EV_CMD_WA1_WINDSHIELD, &callback3, ST_WIPER_AND_WASHER_ON_WINDSHIELD },
-    { ST_WINDSHIELDWIPER_ON_WINDSHIELD, EV_CMD_WI0_WINDSHIELD, &callback1, ST_ALLOFF_WINDSHIELD },
     { ST_ANY_WINDSHIELD, EV_ERR_WINDSHIELD, &FsmError, ST_TERM_WINDSHIELD }
 };
-#define TRANS_COUNT (sizeof(trans)/sizeof(*trans))
+
+#define TRANS_COUNT_WINDSHIELD (sizeof(trans_windshield)/sizeof(*trans_windshield))
+
 windshield_event_t get_next_event_windshield(windshield_state_t current_state, long unsigned currentTimeSeconds) {
     windshield_event_t event = EV_NONE_WINDSHIELD;
     cmd_t cmdWasher = get_cmdWindShieldWasher(); // Get the command for the windshield washer
@@ -63,39 +80,32 @@ windshield_event_t get_next_event_windshield(windshield_state_t current_state, l
     unsigned long timerSeconds = difftime(timer, 0);
 
     if (cmdWasher == 0 && cmdWiper == 0) {
-        event = get_next_event_windshield(current_state, currentTimeSeconds);
-    } else if (current_state == ST_ALLOFF_WINDSHIELD) {
+        event = EV_NONE_WINDSHIELD;
+    } else if (cmdWasher == 1){
+        event = EV_CMD_WA1_WINDSHIELD;
+    } else if (current_state == ST_TIMERWIPER_AND_WASHEROFF_WINDSHIELD) {
+        if (timerSeconds - currentTimeSeconds > 2) {
+            event = EV_TIME_OVER_2_WINDSHIELD;
+        } else {
+            event = EV_TIME_UNDER_2_WINDSHIELD;
+        }
+    } else if (current_state == ST_ALLOFF_WINDSHIELD || current_state == ST_ALLOFF_WINDSHIELD) {
         if (cmdWiper == 1) {
-            event = EV_CMD_WI1_WINDSHIELD;
-        } else { // cmdWasher == 1
-            event = EV_CMD_WA1_WINDSHIELD;
+          event = EV_CMD_WI1_WINDSHIELD;
+        } else { // cmdWiper == 0
+          event = EV_CMD_WI0_WINDSHIELD;
         }
-    } else if (current_state == ST_WINDSHIELDWIPER_ON_WINDSHIELD) {
-        if (cmdWasher == 1) {
-            event = EV_CMD_WA1_WINDSHIELD;
-        } else if (cmdWiper == 0) {
-            event = EV_CMD_WI0_WINDSHIELD;
-        } else { // cmdWiper == 1
-            event = get_next_event_windshield(current_state, currentTimeSeconds);
-        }
-    } else if (current_state == ST_WIPER_AND_WASHER_ON_WINDSHIELD) {
-        if (cmdWasher == 0) {
-            event = EV_CMD_WA0_WINDSHIELD;
-        } else { // cmdWasher == 1
-            event = get_next_event_windshield(current_state, currentTimeSeconds);
-        }
-    } else if (timerSeconds - currentTimeSeconds > 2) {
-        event = EV_TIME_OVER_2_WINDSHIELD;
-    } else { // timerSeconds - currentTimeSeconds < 2
-        event = get_next_event_windshield(current_state, currentTimeSeconds);
+    } else if (current_state == ST_WIPER_AND_WASHER_ON_WINDSHIELD && cmdWasher == 0){
+        event = EV_CMD_WA0_WINDSHIELD;
+    } else {
+        event = EV_ERR_WINDSHIELD;
     }
-
     return event;
 }
 
 windshield_state_t main_fsm_windshield(windshield_state_t currentState) {
     windshield_state_t state = currentState;
-    windshield_event_t event = get_next_event_windshield(state, time(NULL));
+    windshield_event_t event = EV_NONE_WINDSHIELD;
     time_t currentTime;
     unsigned long currentTimeSeconds;
 
@@ -108,15 +118,12 @@ windshield_state_t main_fsm_windshield(windshield_state_t currentState) {
     currentTimeSeconds = difftime(currentTime, 0);
     event = get_next_event_windshield(state, currentTimeSeconds);
 
-    /* Process transitions */
-    for (int i = 0; i < TRANS_COUNT; i++) {
-        /* Check if the transition applies */
-        if ((state == trans[i].state) || (ST_ANY_WINDSHIELD == trans[i].state)) {
-            if ((event == trans[i].event) || (EV_ANY_WINDSHIELD == trans[i].event)) {
-                /* Update the state and call the callback */
-                state = trans[i].next_state;
-                if (trans[i].callback != NULL) {
-                    trans[i].callback();
+    for (long int unsigned i = 0; i < TRANS_COUNT_WINDSHIELD; i++) {
+        if ((state == trans_windshield[i].state) || (ST_ANY_WINDSHIELD == trans_windshield[i].state)) {
+            if ((event == trans_windshield[i].event) || (EV_ANY_WINDSHIELD == trans_windshield[i].event)) {
+                state = trans_windshield[i].next_state;
+                if (trans_windshield[i].callback != NULL) {
+                    trans_windshield[i].callback();
                 }
                 break;
             }
