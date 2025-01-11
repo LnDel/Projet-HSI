@@ -27,12 +27,14 @@ void decode_comodo_to_bcgv(uint8_t* frame) {
 
 is_valid_frame_t decode_mux_to_bcgv(uint8_t* frame) {
 
-    crc_t received_crc = frame[14];
-    crc_t calculated_crc = crc_8(frame, 14);
+    crc_t received_crc;
+    crc_t calculated_crc;
     mileage_t mileage;
     rpm_t rpm;
 
     // Check if the CRC8 is valid
+    received_crc = frame[14];
+    calculated_crc = crc_8(frame, 14);
     if (received_crc != calculated_crc) {
         printf("CRC8 mismatch: received 0x%02X, calculated 0x%02X\n", received_crc, calculated_crc);
         return INVALID;

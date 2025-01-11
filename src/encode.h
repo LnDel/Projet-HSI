@@ -23,8 +23,6 @@ void encode_bcgv_to_bgf5(uint8_t* frame);
 
 int verify_acknowledgment(const uint8_t* sent_frame, const uint8_t* received_frame);
 
-
 void encode_bcgv_to_mux(uint8_t* frame);
 
 #endif // ENCODE_FRAMES_H
-
