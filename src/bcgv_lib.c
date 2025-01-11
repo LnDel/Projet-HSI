@@ -191,7 +191,7 @@ indicator_t get_indicatorRightTurnSignal(void) { return bcgv_data.indicatorRight
 indicator_t get_indicatorLeftTurnSignal(void) { return bcgv_data.indicatorLeftTurnSignal; }
 
 short int set_cmdWarning(cmd_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.cmdWarning = value;
         return 1;
     }
@@ -199,7 +199,7 @@ short int set_cmdWarning(cmd_t value) {
 }
 
 short int set_cmdPositionLights(cmd_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.cmdPositionLights = value;
         return 1;
     }
@@ -207,7 +207,7 @@ short int set_cmdPositionLights(cmd_t value) {
 }
 
 short int set_cmdLowBeams(cmd_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.cmdLowBeams = value;
         return 1;
     }
@@ -215,7 +215,7 @@ short int set_cmdLowBeams(cmd_t value) {
 }
 
 short int set_cmdHighBeams(cmd_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.cmdHighBeams = value;
         return 1;
     }
@@ -223,7 +223,7 @@ short int set_cmdHighBeams(cmd_t value) {
 }
 
 short int set_cmdRightTurnSignal(cmd_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.cmdRightTurnSignal = value;
         return 1;
     }
@@ -231,7 +231,7 @@ short int set_cmdRightTurnSignal(cmd_t value) {
 }
 
 short int set_cmdLeftTurnSignal(cmd_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.cmdLeftTurnSignal = value;
         return 1;
     }
@@ -239,7 +239,7 @@ short int set_cmdLeftTurnSignal(cmd_t value) {
 }
 
 short int set_cmdWindShieldWiper(cmd_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.cmdWindShieldWiper = value;
         return 1;
     }
@@ -247,7 +247,7 @@ short int set_cmdWindShieldWiper(cmd_t value) {
 }
 
 short int set_cmdWindShieldWasher(cmd_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.cmdWindShieldWasher = value;
         return 1;
     }
@@ -255,7 +255,7 @@ short int set_cmdWindShieldWasher(cmd_t value) {
 }
 
 short int set_frameNumber(frame_num_t value) {
-    if (value >= 0 && value <= 100) {
+    if (value <= 100) {
         bcgv_data.frameNumber = value;
         return 1;
     }
@@ -263,7 +263,7 @@ short int set_frameNumber(frame_num_t value) {
 }
 
 short int set_mileage(mileage_t value) {
-    if (value >= 0) {
+    if (value <= 500000) {
         bcgv_data.mileage = value;
         return 1;
     }
@@ -271,7 +271,7 @@ short int set_mileage(mileage_t value) {
 }
 
 short int set_speed(speed_t value) {
-    if (value >= 0 && value <= 255) {
+    if (value <= 254) {
         bcgv_data.speed = value;
         return 1;
     }
@@ -279,7 +279,7 @@ short int set_speed(speed_t value) {
 }
 
 short int set_problemChassis(chassis_pb_t value) {
-    if (value >= 0 && value <= 2) {
+    if (value <= 2) {
         bcgv_data.problemChassis = value;
         return 1;
     }
@@ -287,7 +287,7 @@ short int set_problemChassis(chassis_pb_t value) {
 }
 
 short int set_problemMotor(motor_pb_t value) {
-    if (value >= 0 && value <= 3) {
+    if (value <= 3) {
         bcgv_data.problemMotor = value;
         return 1;
     }
@@ -295,7 +295,7 @@ short int set_problemMotor(motor_pb_t value) {
 }
 
 short int set_tankLevel(tank_level_t value) {
-    if (value >= 0 && value <= 40) {
+    if (value <= 40) {
         bcgv_data.tankLevel = value;
         return 1;
     }
@@ -303,7 +303,7 @@ short int set_tankLevel(tank_level_t value) {
 }
 
 short int set_rpm(rpm_t value) {
-    if (value >= 0 && value <= 10000) {
+    if (value <= 10000) {
         bcgv_data.rpm = value;
         return 1;
     }
@@ -311,7 +311,7 @@ short int set_rpm(rpm_t value) {
 }
 
 short int set_problemBattery(battery_pb_t value) {
-    if (value >= 0 && value <= 2) {
+    if (value <= 2) {
         bcgv_data.problemBattery = value;
         return 1;
     }
@@ -319,7 +319,7 @@ short int set_problemBattery(battery_pb_t value) {
 }
 
 short int set_receivedCrc8(crc_t value) {
-    if (value >= 0 && value <= 255) {
+    if (value <= 254) {
         bcgv_data.receivedCrc8 = value;
         return 1;
     }
@@ -367,7 +367,7 @@ short int set_idMsgBcgvToBgf5(id_msg_t value) {
 }
 
 short int set_activationPositionLights(activation_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.activationPositionLights = value;
         return 1;
     }
@@ -375,7 +375,7 @@ short int set_activationPositionLights(activation_t value) {
 }
 
 short int set_activationLowBeams(activation_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.activationLowBeams = value;
         return 1;
     }
@@ -383,7 +383,7 @@ short int set_activationLowBeams(activation_t value) {
 }
 
 short int set_activationHighBeams(activation_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.activationHighBeams = value;
         return 1;
     }
@@ -391,7 +391,7 @@ short int set_activationHighBeams(activation_t value) {
 }
 
 short int set_activationRightTurnSignal(activation_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.activationRightTurnSignal = value;
         return 1;
     }
@@ -399,7 +399,7 @@ short int set_activationRightTurnSignal(activation_t value) {
 }
 
 short int set_activationLeftTurnSignal(activation_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.activationLeftTurnSignal = value;
         return 1;
     }
@@ -407,7 +407,7 @@ short int set_activationLeftTurnSignal(activation_t value) {
 }
 
 short int set_indicatorPositionLights(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorPositionLights = value;
         return 1;
     }
@@ -415,7 +415,7 @@ short int set_indicatorPositionLights(indicator_t value) {
 }
 
 short int set_indicatorLowBeams(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorLowBeams = value;
         return 1;
     }
@@ -423,7 +423,7 @@ short int set_indicatorLowBeams(indicator_t value) {
 }
 
 short int set_indicatorHighBeams(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorHighBeams = value;
         return 1;
     }
@@ -431,7 +431,7 @@ short int set_indicatorHighBeams(indicator_t value) {
 }
 
 short int set_indicatorFuel(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorFuel = value;
         return 1;
     }
@@ -439,7 +439,7 @@ short int set_indicatorFuel(indicator_t value) {
 }
 
 short int set_indicatorMotorPb(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorMotorPb = value;
         return 1;
     }
@@ -447,7 +447,7 @@ short int set_indicatorMotorPb(indicator_t value) {
 }
 
 short int set_indicatorTirePressure(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorTirePressure = value;
         return 1;
     }
@@ -455,7 +455,7 @@ short int set_indicatorTirePressure(indicator_t value) {
 }
 
 short int set_indicatorDischargedBattery(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorDischargedBattery = value;
         return 1;
     }
@@ -463,7 +463,7 @@ short int set_indicatorDischargedBattery(indicator_t value) {
 }
 
 short int set_indicatorWarning(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorWarning = value;
         return 1;
     }
@@ -471,7 +471,7 @@ short int set_indicatorWarning(indicator_t value) {
 }
 
 short int set_indicatorBatteryFailure(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorBatteryFailure = value;
         return 1;
     }
@@ -479,7 +479,7 @@ short int set_indicatorBatteryFailure(indicator_t value) {
 }
 
 short int set_indicatorTempLDR(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorTempLDR = value;
         return 1;
     }
@@ -487,7 +487,7 @@ short int set_indicatorTempLDR(indicator_t value) {
 }
 
 short int set_indicatorMotorPressure(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorMotorPressure = value;
         return 1;
     }
@@ -495,7 +495,7 @@ short int set_indicatorMotorPressure(indicator_t value) {
 }
 
 short int set_indicatorOilOverheating(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorOilOverheating = value;
         return 1;
     }
@@ -503,7 +503,7 @@ short int set_indicatorOilOverheating(indicator_t value) {
 }
 
 short int set_indicatorBrakeFailure(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorBrakeFailure = value;
         return 1;
     }
@@ -511,7 +511,7 @@ short int set_indicatorBrakeFailure(indicator_t value) {
 }
 
 short int set_activationShieldWiper(activation_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.activationShieldWiper = value;
         return 1;
     }
@@ -519,7 +519,7 @@ short int set_activationShieldWiper(activation_t value) {
 }
 
 short int set_activationShieldWasher(activation_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.activationShieldWasher = value;
         return 1;
     }
@@ -527,7 +527,7 @@ short int set_activationShieldWasher(activation_t value) {
 }
 
 short int set_displayMileage(display_mileage_t value) {
-    if (value >= 0) {
+    if (value <= 500000) {
         bcgv_data.displayMileage = value;
         return 1;
     }
@@ -535,7 +535,7 @@ short int set_displayMileage(display_mileage_t value) {
 }
 
 short int set_displaySpeed(display_speed_t value) {
-    if (value >= 0) {
+    if (value <= 200) {
         bcgv_data.displaySpeed = value;
         return 1;
     }
@@ -543,7 +543,7 @@ short int set_displaySpeed(display_speed_t value) {
 }
 
 short int set_displayTankLevel(display_tank_level_t value) {
-    if (value >= 0) {
+    if (value <= 500) {
         bcgv_data.displayTankLevel = value;
         return 1;
     }
@@ -551,7 +551,7 @@ short int set_displayTankLevel(display_tank_level_t value) {
 }
 
 short int set_displayRpm(display_rpm_t value) {
-    if (value >= 0 && value <= 1000) {
+    if (value <= 10000) {
         bcgv_data.displayRpm = value;
         return 1;
     }
@@ -559,7 +559,7 @@ short int set_displayRpm(display_rpm_t value) {
 }
 
 short int set_indicatorRightTurnSignal(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorRightTurnSignal = value;
         return 1;
     }
@@ -567,7 +567,7 @@ short int set_indicatorRightTurnSignal(indicator_t value) {
 }
 
 short int set_indicatorLeftTurnSignal(indicator_t value) {
-    if (value >= 0 && value <= 1) {
+    if (value <= 1) {
         bcgv_data.indicatorLeftTurnSignal = value;
         return 1;
     }

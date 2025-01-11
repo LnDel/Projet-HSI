@@ -25,6 +25,7 @@
 int main(void) {
 
     uint16_t frameIndex;
+    uint16_t byteIndex;
     uint32_t serialDataLen = 0;
 
     int32_t drvFd;
@@ -97,10 +98,10 @@ int main(void) {
         {
         
             printf("\nReceived serial frames:\n");
-            for (uint32_t frameIndex = 0; frameIndex < serialDataLen; frameIndex++) {
+            for (frameIndex = 0; frameIndex < serialDataLen; frameIndex++) {
                 printf("Frame %u (serNum: %u, frameSize: %zu): ", frameIndex, serialFrames[frameIndex].serNum, serialFrames[frameIndex].frameSize);
 
-                for (size_t byteIndex = 0; byteIndex < serialFrames[frameIndex].frameSize; byteIndex++) {
+                for (byteIndex = 0; byteIndex < serialFrames[frameIndex].frameSize; byteIndex++) {
                     printf("%02X ", serialFrames[frameIndex].frame[byteIndex]);
                 }
                 printf("\n");
