@@ -1,9 +1,8 @@
 /**
- * \file        fsm_left_turn_signal.c
- * \author      Warren Anderson
- * \version     0.4
- * \date        08 October 2023
- * \brief       Finite State Machine for the left turn signal.
+ * \file fsm_left_turn_signal.c
+ * \brief Finite State Machine for the left turn signal.
+ * \details Implementation of state transitions and events for the left turn signal FSM.
+ * \author Warren Anderson
  */
 
 #include <stdlib.h>
@@ -12,36 +11,60 @@
 #include <time.h>
 #include "../bcgv_lib.h"
 #include "fsm_left_turn_signal.h"
+
 #define TRANS_COUNT_LEFT_TURNSIGNAL (sizeof(trans) / sizeof(*trans))
-static unsigned long lastTimerSeconds = 0; 
+
+static unsigned long lastTimerSeconds = 0;
 
 /* Callback functions called on transitions */
-static int callback1(void) { // ST_OFF_LEFT_TURNSIGNAL
+/**
+ * \brief Callback for turning off the left turn signal.
+ * \details Deactivates the left turn signal.
+ * \return int : 0 on success.
+ */
+static int callback1(void) {
     set_activationLeftTurnSignal(0);
     return 0;
 }
 
-static int callback2(void) { // ST_ACTIVATED_AND_ON_LEFT_TURNSIGNAL
-    printf("Gauche activé et allumé \n");
+/**
+ * \brief Callback for activating and turning on the left turn signal.
+ * \details Activates and lights up the left turn signal.
+ * \return int : 0 on success.
+ */
+static int callback2(void) {
     set_activationLeftTurnSignal(1);
     set_indicatorLeftTurnSignal(1);
     return 0;
 }
 
-static int callback3(void) { // ST_ACQUITTED_LEFT_TURNSIGNAL
-    printf("Gauche acquitté\n");
+/**
+ * \brief Callback for acquitting the left turn signal.
+ * \details Sets the left turn signal indicator.
+ * \return int : 0 on success.
+ */
+static int callback3(void) {
     set_indicatorLeftTurnSignal(1);
     return 0;
 }
 
-static int callback4(void) { // ST_ACTIVATED_AND_OFF_LEFT_TURNSIGNAL
-    printf("Gauche activé et éteint \n");
+/**
+ * \brief Callback for activating and turning off the left turn signal.
+ * \details Activates but turns off the left turn signal indicator.
+ * \return int : 0 on success.
+ */
+static int callback4(void) {
     set_activationLeftTurnSignal(0);
     set_indicatorLeftTurnSignal(0);
     return 0;
 }
 
-static int FsmError(void) { // ST_ERROR_LEFT_TURNSIGNAL
+/**
+ * \brief Callback for FSM error handling.
+ * \details Prints an error message.
+ * \return int : -1 on error.
+ */
+static int FsmError(void) {
     printf("ERROR\n");
     return -1;
 }
@@ -68,38 +91,36 @@ static left_turnsignal_transition_t trans[] = {
     { ST_ANY_LEFT_TURNSIGNAL, EV_ERR_LEFT_TURNSIGNAL, &FsmError, ST_TERM_LEFT_TURNSIGNAL }
 };
 
-left_turn_signal_event_t get_next_event_left_turnsignal(left_turn_signal_state_t currentState, unsigned long currentTimeSeconds) {
+left_turn_signal_event_t get_next_event_left_turnsignal(left_turn_signal_state_t currentState) {
     left_turn_signal_event_t event = EV_NONE_LEFT_TURNSIGNAL;
-    cmd_t cmd = get_cmdLeftTurnSignal(); // Get the cmd parameter
-    indicator_t acq = get_indicatorLeftTurnSignal(); // Get the acq parameter
+    cmd_t cmd = get_cmdLeftTurnSignal();
+    indicator_t acq = get_indicatorLeftTurnSignal();
 
     time_t timer = time(NULL);
     unsigned long timerSeconds = difftime(timer, 0);
 
     if (lastTimerSeconds == 0) {
-        lastTimerSeconds = timerSeconds; // Initialise au premier appel
+        lastTimerSeconds = timerSeconds;
     }
 
-    printf("\n lastTimerSeconds : %ld\n timerSeconds : %ld\n timer: %ld\n",lastTimerSeconds, timerSeconds, timerSeconds - lastTimerSeconds);
-
-    if (cmd == 0){
+    if (cmd == 0) {
         event = EV_CMD0_LEFT_TURNSIGNAL;
-    } else if (currentState == ST_ACQUITTED_LEFT_TURNSIGNAL || currentState == ST_ACQUITTED_LEFT_TURNSIGNAL_OFF){
-        if ((timerSeconds - lastTimerSeconds) >= 1){
+    } else if (currentState == ST_ACQUITTED_LEFT_TURNSIGNAL || currentState == ST_ACQUITTED_LEFT_TURNSIGNAL_OFF) {
+        if ((timerSeconds - lastTimerSeconds) >= 1) {
             event = EV_TIME1_LEFT_TURNSIGNAL;
             lastTimerSeconds = timerSeconds;
         } else {
             event = EV_CMD1_LEFT_TURNSIGNAL;
         }
-    } else if (currentState == ST_ACTIVATED_AND_ON_LEFT_TURNSIGNAL || currentState == ST_ACTIVATED_AND_OFF_LEFT_TURNSIGNAL){
-        if (acq == 1){
+    } else if (currentState == ST_ACTIVATED_AND_ON_LEFT_TURNSIGNAL || currentState == ST_ACTIVATED_AND_OFF_LEFT_TURNSIGNAL) {
+        if (acq == 1) {
             event = EV_ACQ_RECEIVED_LEFT_TURNSIGNAL;
-        } else if ((timerSeconds - lastTimerSeconds) > 1){
+        } else if ((timerSeconds - lastTimerSeconds) > 1) {
             event = EV_ACQ_TIMEOUT_LEFT_TURNSIGNAL;
         } else {
             event = EV_CMD1_LEFT_TURNSIGNAL;
         }
-    } else if (cmd == 1){
+    } else if (cmd == 1) {
         event = EV_CMD1_LEFT_TURNSIGNAL;
     } else {
         event = EV_ERR_LEFT_TURNSIGNAL;
@@ -109,16 +130,12 @@ left_turn_signal_event_t get_next_event_left_turnsignal(left_turn_signal_state_t
 
 left_turn_signal_state_t main_fsm_left_turnsignal(left_turn_signal_state_t currentState) {
     left_turn_signal_state_t state = currentState;
-    left_turn_signal_event_t event = get_next_event_left_turnsignal(state, difftime(time(NULL),0));
-    printf("\n\nGaucheÉtat actuel : %d,\nÉvénement : %d\n", currentState, event);
+    left_turn_signal_event_t event = get_next_event_left_turnsignal(state);
 
-
-    // for the initialisation
-    if (state == ST_INIT_LEFT_TURNSIGNAL){
+    if (state == ST_INIT_LEFT_TURNSIGNAL) {
         return ST_OFF_LEFT_TURNSIGNAL;
     }
 
-    /* Process transitions */
     for (long unsigned int i = 0; i < TRANS_COUNT_LEFT_TURNSIGNAL; i++) {
         if ((state == trans[i].state) || (ST_ANY_LEFT_TURNSIGNAL == trans[i].state)) {
             if ((event == trans[i].event) || (EV_ANY_LEFT_TURNSIGNAL == trans[i].event)) {
@@ -130,5 +147,5 @@ left_turn_signal_state_t main_fsm_left_turnsignal(left_turn_signal_state_t curre
             }
         }
     }
-    return state; // return the new state
+    return state;
 }
