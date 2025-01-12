@@ -93,6 +93,7 @@ void encode_bcgv_to_mux(uint8_t* frame) {
     frame[0] |= (get_indicatorTirePressure() & 0x01) << 2;
     // Unused bit
     frame[0] |= (get_indicatorDischargedBattery() & 0x01);
+    printf("\nframe0 : %d",frame[0]);
 
     // Second byte
     frame[1] |= (get_indicatorWarning() & 0x01) << 7;
@@ -103,6 +104,7 @@ void encode_bcgv_to_mux(uint8_t* frame) {
     frame[1] |= (get_indicatorBrakeFailure() & 0x01) << 2;
     frame[1] |= (get_activationShieldWiper() & 0x01) << 1;
     frame[1] |= (get_activationShieldWasher() & 0x01);
+    printf("\nframe1 : %d",frame[1]);
 
     // Third to sixth byte
     mileage = get_mileage();
@@ -114,10 +116,12 @@ void encode_bcgv_to_mux(uint8_t* frame) {
     // seventh byte
     speed = get_speed();
     frame[6] = speed;
+    printf("\nframe6 : %d",frame[6]);
 
     // eight byte
     tankLevel = get_tankLevel();
     frame[7] = tankLevel;
+    printf("\nframe7 : %d",frame[7]);
 
     // nineth to tenth byte
     rpm = get_rpm();
