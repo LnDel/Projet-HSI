@@ -12,7 +12,8 @@ typedef enum {
     ST_ACTIVATED_AND_ON_RIGHT_TURNSIGNAL = 2,
     ST_ACQUITTED_RIGHT_TURNSIGNAL = 3,
     ST_ACTIVATED_AND_OFF_RIGHT_TURNSIGNAL = 4,
-    ST_ERROR_RIGHT_TURNSIGNAL = 5,
+    ST_ACQUITTED_RIGHT_TURNSIGNAL_OFF = 5,
+    ST_ERROR_RIGHT_TURNSIGNAL = 6,
     ST_TERM_RIGHT_TURNSIGNAL = 255
 } right_turn_signal_state_t;
 
@@ -34,10 +35,10 @@ typedef struct {
     right_turn_signal_event_t event;
     int (*callback)(void);
     int next_state;
-} right_turnsignal_transition;
+} right_turnsignal_transition_t;
 
 /* Function prototypes */
-right_turn_signal_event_t get_next_event_rightturnsignal(right_turn_signal_state_t currentState, unsigned long currentTimeSeconds);
+right_turn_signal_event_t get_next_event_right_turnsignal(right_turn_signal_state_t currentState, unsigned long currentTimeSeconds);
 right_turn_signal_state_t main_fsm_right_turnsignal(right_turn_signal_state_t currentState);
 
 #endif /* FSM_RIGHT_TURN_SIGNAL_H */

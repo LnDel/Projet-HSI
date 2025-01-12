@@ -13,6 +13,7 @@ typedef enum {
     ST_ACQUITTED_WARNING = 3,
     ST_ACTIVATED_AND_OFF_WARNING = 4,
     ST_ERROR_WARNING = 5,
+    ST_ACQUITTED_WARNING_OFF = 6,
     ST_TERM_WARNING = 255
 } warning_state_t;
 
@@ -34,7 +35,7 @@ typedef struct {
     warning_event_t event;
     int (*callback)(void);
     int next_state;
-} warning_transition;
+} warning_transition_t;
 
 /* Function prototypes */
 warning_event_t get_next_event_warning(warning_state_t currentState, unsigned long currentTimeSeconds);

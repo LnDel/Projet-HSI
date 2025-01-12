@@ -12,7 +12,8 @@ typedef enum {
     ST_ACTIVATED_AND_ON_LEFT_TURNSIGNAL = 2,
     ST_ACQUITTED_LEFT_TURNSIGNAL = 3,
     ST_ACTIVATED_AND_OFF_LEFT_TURNSIGNAL = 4,
-    ST_ERROR_LEFT_TURNSIGNAL = 5,
+    ST_ACQUITTED_LEFT_TURNSIGNAL_OFF = 5,
+    ST_ERROR_LEFT_TURNSIGNAL = 6,
     ST_TERM_LEFT_TURNSIGNAL = 255
 } left_turn_signal_state_t;
 
@@ -34,10 +35,10 @@ typedef struct {
     left_turn_signal_event_t event;
     int (*callback)(void);
     int next_state;
-} left_turnsignal_transition;
+} left_turnsignal_transition_t;
 
 /* Function prototypes */
-left_turn_signal_event_t get_next_event_leftturnsignal(left_turn_signal_state_t currentState, unsigned long currentTimeSeconds);
+left_turn_signal_event_t get_next_event_left_turnsignal(left_turn_signal_state_t currentState, unsigned long currentTimeSeconds);
 left_turn_signal_state_t main_fsm_left_turnsignal(left_turn_signal_state_t currentState);
 
 #endif /* FSM_LEFT_TURN_SIGNAL_H */
