@@ -574,6 +574,22 @@
             "dimension": 0,
             "initValue" : 0,
             "comment": ""
+        },
+        {
+            "id": 48,
+            "name": "indicatorShieldWiper",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
+        },
+        {
+            "id": 49,
+            "name": "indicatorShieldWasher",
+            "type": "indicator_t",
+            "dimension": 0,
+            "initValue" : 0,
+            "comment": ""
         }
         
     ]

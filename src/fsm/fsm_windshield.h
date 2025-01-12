@@ -34,7 +34,7 @@ typedef struct {
     windshield_event_t event;
     int (*callback)(void);
     int next_state;
-} windshield_transition;
+} windshield_transition_t;
 
 /* Function prototypes */
 windshield_event_t get_next_event_windshield(windshield_state_t current_state, long unsigned currentTimeSeconds);

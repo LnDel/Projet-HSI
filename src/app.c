@@ -42,13 +42,13 @@ int main(void) {
     uint8_t serialFrameBGF3[SER_MAX_FRAME_SIZE];
     uint8_t serialFrameBGF4[SER_MAX_FRAME_SIZE];
     uint8_t serialFrameBGF5[SER_MAX_FRAME_SIZE];
-    serial_frame_t serialFramesBGF[DRV_MAX_FRAMES];
+    // serial_frame_t serialFramesBGF[DRV_MAX_FRAMES];
 
     // Include les .h
     high_beams_state_t stateHighBeams = ST_INIT_high_beams;
     low_beams_state_t stateLowBeams = ST_INIT_low_beams;
     position_light_state_t statePositionLight = ST_INIT_position_light;
-    //windshield_state_t stateWindshield = ST_INIT_WINDSHIELD;
+    windshield_state_t stateWindshield = ST_INIT_WINDSHIELD;
     left_turn_signal_state_t stateLeftTurnSignal = ST_INIT_LEFT_TURNSIGNAL;
     right_turn_signal_state_t stateRightTurnSignal = ST_INIT_RIGHT_TURNSIGNAL;
     warning_state_t stateWarning = ST_INIT_WARNING;
@@ -117,7 +117,7 @@ int main(void) {
         stateLeftTurnSignal = main_fsm_left_turnsignal(stateLeftTurnSignal);
         stateRightTurnSignal = main_fsm_right_turnsignal(stateRightTurnSignal);
         stateWarning = main_fsm_warning(stateWarning);
-        //stateWindshield = main_fsm_windshield(stateWindshield);
+        stateWindshield = main_fsm_windshield(stateWindshield);
 
         // Encode and write UDP
         encode_bcgv_to_mux(udpWriteFrame);
