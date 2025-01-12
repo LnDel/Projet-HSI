@@ -3,8 +3,6 @@
  * \brief       Header file for the Finite State Machine managing the windshield wiper and washer.
  * \details     Defines states, events, transition structures, and function prototypes for the windshield FSM.
  * \author      Warren Anderson, Samy Belbouab
- * \version     1.0
- * \date        08 Jan 2025
  */
 
 #ifndef FSM_WINDSHIELD_H

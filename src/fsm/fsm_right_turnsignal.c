@@ -1,9 +1,8 @@
 /**
  * \file        fsm_right_turn_signal.c
  * \author      Warren Anderson
- * \version     0.4
- * \date        08 October 2023
  * \brief       Finite State Machine for the right turn signal.
+ * \details     
  */
 
 #include <stdlib.h>
@@ -15,34 +14,55 @@
 #define TRANS_COUNT_RIGHT_TURN_SIGNAL (sizeof(trans) / sizeof(*trans))
 static unsigned long lastTimerSeconds = 0; 
 
-/* Callback functions called on transitions */
-static int callback1(void) { // ST_OFF_RIGHT_TURNSIGNAL
+/**
+ * \brief Callback for the ST_OFF_RIGHT_TURNSIGNAL state.
+ * \details Deactivates the right turn signal and its indicator.
+ * \return int : Always returns 0.
+ */
+static int callback1(void) {
     set_activationRightTurnSignal(0);
     set_indicatorRightTurnSignal(0);
     return 0;
 }
 
-static int callback2(void) { // ST_ACTIVATED_AND_ON_RIGHT_TURNSIGNAL
-    printf("Droit activé et allumé \n");
+/**
+ * \brief Callback for the ST_ACTIVATED_AND_ON_RIGHT_TURNSIGNAL state.
+ * \details Activates the right turn signal and turns on the indicator.
+ * \return int : Always returns 0.
+ */
+static int callback2(void) {
     set_activationRightTurnSignal(1);
     set_indicatorRightTurnSignal(1);
     return 0;
 }
 
-static int callback3(void) { // ST_ACQUITTED_RIGHT_TURNSIGNAL
-    printf("Droit acquitté\n");
+/**
+ * \brief Callback for the ST_ACQUITTED_RIGHT_TURNSIGNAL state.
+ * \details Acquits the right turn signal and keeps the indicator on.
+ * \return int : Always returns 0.
+ */
+static int callback3(void) {
     set_indicatorRightTurnSignal(1);
     return 0;
 }
 
-static int callback4(void) { // ST_ACTIVATED_AND_OFF_RIGHT_TURNSIGNAL
-    printf("Droit activé et éteint \n");
+/**
+ * \brief Callback for the ST_ACTIVATED_AND_OFF_RIGHT_TURNSIGNAL state.
+ * \details Deactivates the right turn signal and turns off the indicator.
+ * \return int : Always returns 0.
+ */
+static int callback4(void) {
     set_activationRightTurnSignal(0);
     set_indicatorRightTurnSignal(0);
     return 0;
 }
 
-static int FsmError(void) { // ST_ERROR_RIGHT_TURNSIGNAL
+/**
+ * \brief Callback for the ST_ERROR_RIGHT_TURNSIGNAL state.
+ * \details Logs an error message and returns -1.
+ * \return int : Always returns -1.
+ */
+static int FsmError(void) {
     printf("ERROR\n");
     return -1;
 }
@@ -69,8 +89,7 @@ static right_turnsignal_transition_t trans[] = {
     { ST_ANY_RIGHT_TURNSIGNAL, EV_ERR_RIGHT_TURNSIGNAL, &FsmError, ST_TERM_RIGHT_TURNSIGNAL }
 };
 
-
-right_turn_signal_event_t get_next_event_right_turnsignal(right_turn_signal_state_t currentState, unsigned long currentTimeSeconds) {
+right_turn_signal_event_t get_next_event_right_turnsignal(right_turn_signal_state_t currentState) {
     right_turn_signal_event_t event = EV_NONE_RIGHT_TURNSIGNAL;
     cmd_t cmd = get_cmdRightTurnSignal(); // Get the cmd parameter
     indicator_t acq = get_indicatorRightTurnSignal(); // Get the acq parameter
@@ -79,10 +98,8 @@ right_turn_signal_event_t get_next_event_right_turnsignal(right_turn_signal_stat
     unsigned long timerSeconds = difftime(timer, 0);
 
     if (lastTimerSeconds == 0) {
-        lastTimerSeconds = timerSeconds; // Initialise au premier appel
+        lastTimerSeconds = timerSeconds; // Initialize on the first call
     }
-
-    printf("\n lastTimerSeconds : %ld\n timerSeconds : %ld\n timer: %ld\n",lastTimerSeconds, timerSeconds, timerSeconds - lastTimerSeconds);
 
     if (cmd == 0){
         event = EV_CMD0_RIGHT_TURNSIGNAL;
@@ -111,9 +128,8 @@ right_turn_signal_event_t get_next_event_right_turnsignal(right_turn_signal_stat
 }
 right_turn_signal_state_t main_fsm_right_turnsignal(right_turn_signal_state_t currentState) {
     right_turn_signal_state_t state = currentState;
-    right_turn_signal_event_t event = get_next_event_right_turnsignal(state, difftime(time(NULL),0));
-    printf("DroitÉtat actuel : %d,\n Événement : %d\n", currentState, event);
-    // for the initialisation
+    right_turn_signal_event_t event = get_next_event_right_turnsignal(state);
+    // for initialization
     if (state == ST_INIT_RIGHT_TURNSIGNAL){
         return ST_OFF_RIGHT_TURNSIGNAL;
     }

@@ -3,8 +3,6 @@
  * \brief       Finite State Machine for the warning signal.
  * \details     Handles state transitions and events for the warning signal.
  * \author      Warren Anderson, Samy Belbouab
- * \version     0.4
- * \date        08 January 2025
  */
 
 #include <stdlib.h>

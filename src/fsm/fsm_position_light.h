@@ -1,8 +1,6 @@
 /**
  * \file        fsm_position_light.h
  * \author      Samy Belbouab
- * \version     0.1
- * \date        06 December 2024
  * \brief       Header file for the Finite State Machine controlling the position light.
  * \details
  */

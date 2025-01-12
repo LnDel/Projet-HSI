@@ -1,8 +1,6 @@
 /**
  * \file        fsm_windshield.c
  * \author      Warren Anderson, Samy Belbouab
- * \version     0.4
- * \date        08 October 2023
  * \brief       This is a file to manage the state machine of windshield wiper and washer
  * \details     The FSM manages the windshield wiper and windshield washer functionalities.
  */

@@ -1,44 +1,52 @@
 /**
  * \file        fsm_position_light.c
  * \author      Samy Belbouab
- * \version     0.1
- * \date        06 december 2024
- * \brief       This is a template file to create a Finite State Machine.
- * \details
-*/
+ * \brief       Finite State Machine implementation for the position light.
+ * \details     Contains the core logic for state transitions and callback functions.
+ */
 
 #include <stdlib.h>
 #include <stdio.h>
-
 #include "../bcgv_lib.h"
-
 #include "fsm_position_light.h"
 
 /* Callback functions called on transitions */
 
-// ============ Need to modify it ============
+/**
+ * \brief Deactivates the position light and its indicator.
+ * \return int : Always returns 0.
+ */
 static int callback1(void) {
-  printf("Position light turned off\n");
-  set_activationPositionLights(0);
-  set_indicatorPositionLights(0);
-  return 0;
+    set_activationPositionLights(0);
+    set_indicatorPositionLights(0);
+    return 0;
 }
 
+/**
+ * \brief Activates the position light and its indicator.
+ * \return int : Always returns 0.
+ */
 static int callback2(void) {
-  printf("Position light turned on\n");
-  set_activationPositionLights(1);
-  set_indicatorPositionLights(1);
-  return 0;
+    set_activationPositionLights(1);
+    set_indicatorPositionLights(1);
+    return 0;
 }
 
+/**
+ * \brief No operation callback for neutral transitions.
+ * \return int : Always returns 0.
+ */
 static int callback3(void) {
-  printf("Position light acquitted\n");
-  return 0;
+    return 0;
 }
 
+/**
+ * \brief Handles errors by logging an error message.
+ * \return int : Always returns -1.
+ */
 static int FsmError(void) {
-  printf("Position light Error occurred\n");
-  return -1;
+    printf("Position light Error occurred\n");
+    return -1;
 }
 
 /* Transition structure */

@@ -3,8 +3,6 @@
  * \brief       Header file for the Finite State Machine managing the warning signal.
  * \details     Defines states, events, transition structures, and function prototypes for the FSM.
  * \author      Warren Anderson, Samy Belbouab
- * \version     0.4
- * \date        08 January 2025
  */
 
 #ifndef FSM_WARNING_H
