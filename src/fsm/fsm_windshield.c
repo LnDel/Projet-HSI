@@ -1,10 +1,10 @@
 /**
- * \file        fsm.c
- * \author      Warren Anderson
+ * \file        fsm_windshield.c
+ * \author      Warren Anderson, Samy Belbouab
  * \version     0.4
- * \date        08 otober 2023
- * \brief       This is a template file to create a Finite State Machine.
- * \details
+ * \date        08 October 2023
+ * \brief       This is a file to manage the state machine of windshield wiper and washer
+ * \details     The FSM manages the windshield wiper and windshield washer functionalities.
  */
 
 #include <stdlib.h>
@@ -16,41 +16,57 @@
 
 /* Callback functions called on transitions */
 
-static int callback1 (void) { // ST_ALLOFF
-  printf("Windshield wiper and washer turned off\n");
-  set_activationShieldWasher(0);
-  set_indicatorShieldWasher(0);
-  set_activationShieldWiper(0);
-  set_indicatorShieldWiper(0);
-  return 0;
+/**
+ * \brief Callback for turning off the windshield wiper and washer.
+ * \return Always returns 0.
+ */
+static int callback1(void) { // ST_ALLOFF
+    set_activationShieldWasher(0);
+    set_indicatorShieldWasher(0);
+    set_activationShieldWiper(0);
+    set_indicatorShieldWiper(0);
+    return 0;
 }
 
-static int callback2 (void) { // ST_WINDSHIELDWIPER_ON
-printf("Windshield wiper turned on\n");
-  set_activationShieldWiper(1);
-  set_indicatorShieldWiper(1);
-  return 0;
+/**
+ * \brief Callback for turning on the windshield wiper.
+ * \return Always returns 0.
+ */
+static int callback2(void) { // ST_WINDSHIELDWIPER_ON
+    set_activationShieldWiper(1);
+    set_indicatorShieldWiper(1);
+    return 0;
 }
 
-static int callback3 (void) { // ST_WIPER_AND_WASHER_ON
-  printf("Windshield wiper and washer turned on\n");
-  set_activationShieldWiper(1);
-  set_indicatorShieldWiper(1);
-  set_activationShieldWasher(1);
-  set_indicatorShieldWasher(1);
-  return 0;
+/**
+ * \brief Callback for turning on the windshield wiper and washer.
+ * \return Always returns 0.
+ */
+static int callback3(void) { // ST_WIPER_AND_WASHER_ON
+    set_activationShieldWiper(1);
+    set_indicatorShieldWiper(1);
+    set_activationShieldWasher(1);
+    set_indicatorShieldWasher(1);
+    return 0;
 }
 
-static int callback4 (void) { // ST_TIMERWIPER_AND_WASHEROFF
-  printf("Windshield wiper timer and washer turned off\n");
-  set_activationShieldWasher(0);
-  set_indicatorShieldWasher(0);
-  return 0;
+/**
+ * \brief Callback for turning off the washer and setting the timer for the wiper.
+ * \return Always returns 0.
+ */
+static int callback4(void) { // ST_TIMERWIPER_AND_WASHEROFF
+    set_activationShieldWasher(0);
+    set_indicatorShieldWasher(0);
+    return 0;
 }
 
+/**
+ * \brief Callback for handling FSM errors.
+ * \return Always returns -1.
+ */
 static int FsmError(void) {   
-  printf("ERREUR");
-  return -1;
+    printf("ERREUR\n");
+    return -1;
 }
 
 /* Transition table */
@@ -74,14 +90,14 @@ static windshield_transition_t trans_windshield[] = {
 
 windshield_event_t get_next_event_windshield(windshield_state_t current_state, long unsigned currentTimeSeconds) {
     windshield_event_t event = EV_NONE_WINDSHIELD;
-    cmd_t cmdWasher = get_cmdWindShieldWasher(); // Get the command for the windshield washer
-    cmd_t cmdWiper = get_cmdWindShieldWiper();   // Get the command for the windshield wiper
+    cmd_t cmdWasher = get_cmdWindShieldWasher();
+    cmd_t cmdWiper = get_cmdWindShieldWiper();
     time_t timer = time(NULL);
     unsigned long timerSeconds = difftime(timer, 0);
 
     if (cmdWasher == 0 && cmdWiper == 0) {
         event = EV_NONE_WINDSHIELD;
-    } else if (cmdWasher == 1){
+    } else if (cmdWasher == 1) {
         event = EV_CMD_WA1_WINDSHIELD;
     } else if (current_state == ST_TIMERWIPER_AND_WASHEROFF_WINDSHIELD) {
         if (timerSeconds - currentTimeSeconds > 2) {
@@ -89,13 +105,13 @@ windshield_event_t get_next_event_windshield(windshield_state_t current_state, l
         } else {
             event = EV_TIME_UNDER_2_WINDSHIELD;
         }
-    } else if (current_state == ST_ALLOFF_WINDSHIELD || current_state == ST_ALLOFF_WINDSHIELD) {
+    } else if (current_state == ST_ALLOFF_WINDSHIELD) {
         if (cmdWiper == 1) {
-          event = EV_CMD_WI1_WINDSHIELD;
-        } else { // cmdWiper == 0
-          event = EV_CMD_WI0_WINDSHIELD;
+            event = EV_CMD_WI1_WINDSHIELD;
+        } else {
+            event = EV_CMD_WI0_WINDSHIELD;
         }
-    } else if (current_state == ST_WIPER_AND_WASHER_ON_WINDSHIELD && cmdWasher == 0){
+    } else if (current_state == ST_WIPER_AND_WASHER_ON_WINDSHIELD && cmdWasher == 0) {
         event = EV_CMD_WA0_WINDSHIELD;
     } else {
         event = EV_ERR_WINDSHIELD;
@@ -109,8 +125,7 @@ windshield_state_t main_fsm_windshield(windshield_state_t currentState) {
     time_t currentTime;
     unsigned long currentTimeSeconds;
 
-    // for the initialisation
-    if (state == ST_INIT_WINDSHIELD){
+    if (state == ST_INIT_WINDSHIELD) {
         return ST_ALLOFF_WINDSHIELD;
     }
 
@@ -129,5 +144,5 @@ windshield_state_t main_fsm_windshield(windshield_state_t currentState) {
             }
         }
     }
-    return state; // return the new state
+    return state;
 }
