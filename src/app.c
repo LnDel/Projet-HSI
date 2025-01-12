@@ -22,6 +22,9 @@
 #include "fsm/fsm_windshield.h"
 #include "fsm/fsm_warning.h"
 
+#define NUMBER_SERIAL_FRAMES_SEND 5
+#define SER_PORT 11
+
 int main(void) {
 
     uint16_t frameIndex;
@@ -42,7 +45,8 @@ int main(void) {
     uint8_t serialFrameBGF3[SER_MAX_FRAME_SIZE];
     uint8_t serialFrameBGF4[SER_MAX_FRAME_SIZE];
     uint8_t serialFrameBGF5[SER_MAX_FRAME_SIZE];
-    // serial_frame_t serialFramesBGF[DRV_MAX_FRAMES];
+    uint8_t* framesSend[NUMBER_SERIAL_FRAMES_SEND];
+    serial_frame_t serialFramesBGF[DRV_MAX_FRAMES];
 
     // Include les .h
     high_beams_state_t stateHighBeams = ST_INIT_high_beams;
@@ -128,23 +132,27 @@ int main(void) {
         }
 
         // Encode and write serial line
-        // todo : déclarer les var au début de la fonction, nombre magique, à corriger pour que ça fonctionn
         encode_bcgv_to_bgf1(serialFrameBGF1);
         encode_bcgv_to_bgf2(serialFrameBGF2);
         encode_bcgv_to_bgf3(serialFrameBGF3);
         encode_bcgv_to_bgf4(serialFrameBGF4);
         encode_bcgv_to_bgf5(serialFrameBGF5);
 
-        uint8_t* frames[5] = {serialFrameBGF1, serialFrameBGF2, serialFrameBGF3, serialFrameBGF4, serialFrameBGF5};
-        for (size_t j = 0; j < 5; j++) {
-            serialFrames[j].serNum = j + 1;
-            serialFrames[j].frameSize = SER_MAX_FRAME_SIZE;
-            for (size_t i = 0; i < SER_MAX_FRAME_SIZE; i++) {
-                serialFrames[j].frame[i] = frames[j][i];
+        framesSend[0] = serialFrameBGF1;
+        framesSend[1] = serialFrameBGF2;
+        framesSend[2] = serialFrameBGF3;
+        framesSend[3] = serialFrameBGF4;
+        framesSend[4] = serialFrameBGF5;
+        
+        for (frameIndex = 0; frameIndex < NUMBER_SERIAL_FRAMES_SEND; frameIndex++) {
+            serialFramesBGF[frameIndex].serNum = SER_PORT;
+            serialFramesBGF[frameIndex].frameSize = SER_MAX_FRAME_SIZE;
+            for (byteIndex = 0; byteIndex < SER_MAX_FRAME_SIZE; byteIndex++) {
+                serialFramesBGF[frameIndex].frame[byteIndex] = framesSend[frameIndex][byteIndex];
             }
         }
 
-        drv_write_ser(drvFd, serialFrames, 5);
+        drv_write_ser(drvFd, serialFramesBGF, NUMBER_SERIAL_FRAMES_SEND);
 
         printf("\n");
     }
