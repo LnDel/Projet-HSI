@@ -107,7 +107,7 @@ right_turn_signal_state_t main_fsm_right_turnsignal(right_turn_signal_state_t cu
     }
 
     /* Process transitions */
-    for (int i = 0; i < TRANS_COUNT_RIGHT_TURN_SIGNAL; i++) {
+    for (long unsigned int i = 0; i < TRANS_COUNT_RIGHT_TURN_SIGNAL; i++) {
         if ((state == trans[i].state) || (ST_ANY_RIGHT_TURNSIGNAL == trans[i].state)) {
             if ((event == trans[i].event) || (EV_ANY_RIGHT_TURNSIGNAL == trans[i].event)) {
                 state = trans[i].next_state;

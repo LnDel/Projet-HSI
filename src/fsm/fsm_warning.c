@@ -115,7 +115,7 @@ warning_state_t main_fsm_warning(warning_state_t currentState) {
   }
 
     /* Process transitions */
-    for (int i = 0; i < TRANS_COUNT_WARNING; i++) {
+    for (long unsigned int i = 0; i < TRANS_COUNT_WARNING; i++) {
         if ((state == trans[i].state) || (ST_ANY_WARNING == trans[i].state)) {
             if ((event == trans[i].event) || (EV_ANY_WARNING == trans[i].event)) {
                 state = trans[i].next_state;

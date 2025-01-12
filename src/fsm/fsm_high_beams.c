@@ -98,7 +98,7 @@ high_beams_state_t main_fsm_high_beams(high_beams_state_t currentState) {
     return ST_OFF_high_beams;
   }
   
-  for (int i = 0; i < TRANS_COUNT_HIGH_BEAMS; i++) {
+  for (long unsigned int i = 0; i < TRANS_COUNT_HIGH_BEAMS; i++) {
     if ((state == trans_high_beams[i].state) || (ST_ANY_high_beams == trans_high_beams[i].state)) {
       if ((event == trans_high_beams[i].event) || (EV_ANY_high_beams == trans_high_beams[i].event)) {
         state = trans_high_beams[i].next_state;

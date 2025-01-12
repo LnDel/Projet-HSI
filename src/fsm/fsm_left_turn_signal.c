@@ -105,7 +105,7 @@ left_turn_signal_state_t main_fsm_left_turnsignal(left_turn_signal_state_t curre
     }
 
     /* Process transitions */
-    for (int i = 0; i < TRANS_COUNT_LEFT_TURNSIGNAL; i++) {
+    for (long unsigned int i = 0; i < TRANS_COUNT_LEFT_TURNSIGNAL; i++) {
         if ((state == trans[i].state) || (ST_ANY_LEFT_TURNSIGNAL == trans[i].state)) {
             if ((event == trans[i].event) || (EV_ANY_LEFT_TURNSIGNAL == trans[i].event)) {
                 state = trans[i].next_state;
