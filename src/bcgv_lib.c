@@ -1,3 +1,12 @@
+/**
+ * \file bcgv_lib.c
+ * \brief Main BCGV application.
+ * \details This file contains the library functions like getters/setters
+ * \author Warren Anderson, Samy Belbouab, Hélène Delran--Garric
+ */
+
+
+
 #include <stdint.h>
 
 typedef uint8_t cmd_t;
