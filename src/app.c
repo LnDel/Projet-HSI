@@ -23,7 +23,8 @@
 #include "fsm/fsm_warning.h"
 
 #define NUMBER_SERIAL_FRAMES_SEND 5
-#define SER_PORT 11
+#define SER_PORT_TRANSMITTER 11
+#define SER_PORT_RECEIVED 12
 
 int main(void) {
 
@@ -98,7 +99,7 @@ int main(void) {
         }
 
         // Process received frames
-        if (serialFrames[0].serNum == 12)
+        if (serialFrames[0].serNum == SER_PORT_RECEIVED)
         {
         
             printf("\nReceived serial frames:\n");
@@ -109,8 +110,9 @@ int main(void) {
                     printf("%02X ", serialFrames[frameIndex].frame[byteIndex]);
                 }
                 printf("\n");
-
-                decode_comodo_to_bcgv(serialFrames[frameIndex].frame);
+                if (serialFrames[frameIndex].serNum == SER_PORT_RECEIVED){
+                    decode_comodo_to_bcgv(serialFrames[frameIndex].frame);
+                }                
             }
         }
 
@@ -145,7 +147,7 @@ int main(void) {
         framesSend[4] = serialFrameBGF5;
 
         for (frameIndex = 0; frameIndex < NUMBER_SERIAL_FRAMES_SEND; frameIndex++) {
-            serialFramesBGF[frameIndex].serNum = SER_PORT;
+            serialFramesBGF[frameIndex].serNum = SER_PORT_TRANSMITTER;
             serialFramesBGF[frameIndex].frameSize = SER_MAX_FRAME_SIZE;
             for (byteIndex = 0; byteIndex < SER_MAX_FRAME_SIZE; byteIndex++) {
                 serialFramesBGF[frameIndex].frame[byteIndex] = framesSend[frameIndex][byteIndex];
