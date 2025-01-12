@@ -1,2 +1,3 @@
-bin/*.o
+bin/*
 /.vscode
+lib/*.a
