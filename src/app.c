@@ -98,7 +98,7 @@ int main(void) {
         }
 
         // Process received frames
-        if (serialDataLen != 0)
+        if (serialFrames[0].serNum == 12)
         {
         
             printf("\nReceived serial frames:\n");
@@ -143,7 +143,7 @@ int main(void) {
         framesSend[2] = serialFrameBGF3;
         framesSend[3] = serialFrameBGF4;
         framesSend[4] = serialFrameBGF5;
-        
+
         for (frameIndex = 0; frameIndex < NUMBER_SERIAL_FRAMES_SEND; frameIndex++) {
             serialFramesBGF[frameIndex].serNum = SER_PORT;
             serialFramesBGF[frameIndex].frameSize = SER_MAX_FRAME_SIZE;

@@ -121,6 +121,7 @@ void encode_bcgv_to_mux(uint8_t* frame) {
 
     // nineth to tenth byte
     rpm = get_rpm();
+    rpm = rpm/10;
     frame[8] = (rpm >> 8) & 0xFF;
-    frame[9] = rpm & 0xFF;     
+    frame[9] = rpm & 0xFF; 
 }
