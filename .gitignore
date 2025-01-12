@@ -1,4 +1,3 @@
 bin/*.o
 bin/app
 /.vscode
-lib/*.a
