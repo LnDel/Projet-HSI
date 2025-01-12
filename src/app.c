@@ -158,6 +158,7 @@ int main(void) {
         }
 
         drv_write_ser(drvFd, serialFramesBGF, NUMBER_SERIAL_FRAMES_SEND);
+        drv_read_ser(drvFd, serialFramesBGF, &serialDataLen);
 
         printf("\n");
     }

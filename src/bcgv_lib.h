@@ -1,10 +1,3 @@
-/**
- * \file bcgv_lib.h
- * \brief Main BCGV application.
- * \details Header file for getters/setters
- * \author Warren Anderson, Samy Belbouab, Hélène Delran--Garric
- */
-
 #include <stdint.h>
 
 #ifndef BCGV_LIB_H
