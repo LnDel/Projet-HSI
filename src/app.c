@@ -115,6 +115,7 @@ int main(void) {
         stateLowBeams = main_fsm_low_beams(stateLowBeams);
         statePositionLight = main_fsm_position_light(statePositionLight);
         stateLeftTurnSignal = main_fsm_left_turnsignal(stateLeftTurnSignal);
+        printf("ahahahaaha\n");
         stateRightTurnSignal = main_fsm_right_turnsignal(stateRightTurnSignal);
         stateWarning = main_fsm_warning(stateWarning);
         stateWindshield = main_fsm_windshield(stateWindshield);

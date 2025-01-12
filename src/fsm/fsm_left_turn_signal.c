@@ -13,6 +13,7 @@
 #include "../bcgv_lib.h"
 #include "fsm_left_turn_signal.h"
 #define TRANS_COUNT_LEFT_TURNSIGNAL (sizeof(trans) / sizeof(*trans))
+static unsigned long lastTimerSeconds = 0; 
 
 /* Callback functions called on transitions */
 static int callback1(void) { // ST_OFF_LEFT_TURNSIGNAL
@@ -21,16 +22,20 @@ static int callback1(void) { // ST_OFF_LEFT_TURNSIGNAL
 }
 
 static int callback2(void) { // ST_ACTIVATED_AND_ON_LEFT_TURNSIGNAL
+    printf("Gauche activé et allumé \n");
     set_activationLeftTurnSignal(1);
     set_indicatorLeftTurnSignal(1);
     return 0;
 }
 
 static int callback3(void) { // ST_ACQUITTED_LEFT_TURNSIGNAL
+    printf("Gauche acquitté\n");
+    set_indicatorLeftTurnSignal(1);
     return 0;
 }
 
 static int callback4(void) { // ST_ACTIVATED_AND_OFF_LEFT_TURNSIGNAL
+    printf("Gauche activé et éteint \n");
     set_activationLeftTurnSignal(0);
     set_indicatorLeftTurnSignal(0);
     return 0;
@@ -71,18 +76,25 @@ left_turn_signal_event_t get_next_event_left_turnsignal(left_turn_signal_state_t
     time_t timer = time(NULL);
     unsigned long timerSeconds = difftime(timer, 0);
 
+    if (lastTimerSeconds == 0) {
+        lastTimerSeconds = timerSeconds; // Initialise au premier appel
+    }
+
+    printf("\n lastTimerSeconds : %ld\n timerSeconds : %ld\n timer: %ld\n",lastTimerSeconds, timerSeconds, timerSeconds - lastTimerSeconds);
+
     if (cmd == 0){
         event = EV_CMD0_LEFT_TURNSIGNAL;
     } else if (currentState == ST_ACQUITTED_LEFT_TURNSIGNAL || currentState == ST_ACQUITTED_LEFT_TURNSIGNAL_OFF){
-        if ((timerSeconds - currentTimeSeconds) == 1){
+        if ((timerSeconds - lastTimerSeconds) >= 1){
             event = EV_TIME1_LEFT_TURNSIGNAL;
+            lastTimerSeconds = timerSeconds;
         } else {
             event = EV_CMD1_LEFT_TURNSIGNAL;
         }
     } else if (currentState == ST_ACTIVATED_AND_ON_LEFT_TURNSIGNAL || currentState == ST_ACTIVATED_AND_OFF_LEFT_TURNSIGNAL){
         if (acq == 1){
             event = EV_ACQ_RECEIVED_LEFT_TURNSIGNAL;
-        } else if ((timerSeconds - currentTimeSeconds) > 1){
+        } else if ((timerSeconds - lastTimerSeconds) > 1){
             event = EV_ACQ_TIMEOUT_LEFT_TURNSIGNAL;
         } else {
             event = EV_CMD1_LEFT_TURNSIGNAL;
@@ -98,6 +110,8 @@ left_turn_signal_event_t get_next_event_left_turnsignal(left_turn_signal_state_t
 left_turn_signal_state_t main_fsm_left_turnsignal(left_turn_signal_state_t currentState) {
     left_turn_signal_state_t state = currentState;
     left_turn_signal_event_t event = get_next_event_left_turnsignal(state, difftime(time(NULL),0));
+    printf("\n\nGaucheÉtat actuel : %d,\nÉvénement : %d\n", currentState, event);
+
 
     // for the initialisation
     if (state == ST_INIT_LEFT_TURNSIGNAL){

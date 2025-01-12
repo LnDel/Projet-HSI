@@ -18,21 +18,18 @@
 
 // ============ Need to modify it ============
 static int callback1(void) {
-  printf("Position light turned off\n");
   set_activationPositionLights(0);
   set_indicatorPositionLights(0);
   return 0;
 }
 
 static int callback2(void) {
-  printf("Position light turned on\n");
   set_activationPositionLights(1);
   set_indicatorPositionLights(1);
   return 0;
 }
 
 static int callback3(void) {
-  printf("Position light acquitted\n");
   return 0;
 }
 

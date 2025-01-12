@@ -15,21 +15,18 @@
 /* Callback functions called on transitions */
 
 static int callback1_high_beams(void) {
-  printf("High beams turned off\n");
   set_activationHighBeams(0);
   set_indicatorHighBeams(0);
   return 0;
 }
 
 static int callback2_high_beams(void) {
-  printf("High beams turned on\n");
   set_activationHighBeams(1);
   set_indicatorHighBeams(1);
   return 0;
 }
 
 static int callback3_high_beams(void) {
-  printf("High beams acquitted\n");
   return 0;
 }
 

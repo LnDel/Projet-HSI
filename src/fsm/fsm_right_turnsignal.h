@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <time.h>
 
+
 /* States */
 typedef enum {
     ST_ANY_RIGHT_TURNSIGNAL = -1,

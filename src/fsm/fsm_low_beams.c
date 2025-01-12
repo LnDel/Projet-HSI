@@ -19,21 +19,18 @@
 
 // ============ Need to modify it ============
 static int callback1(void) {
-  printf("Low beams turned off\n");
   set_activationLowBeams(0);
   set_indicatorLowBeams(0);
   return 0;
 }
 
 static int callback2(void) {
-  printf("Low beams turned on\n");
   set_activationLowBeams(1);
   set_indicatorLowBeams(1);
   return 0;
 }
 
 static int callback3(void) {
-  printf("Low beams acquitted\n");
   return 0;
 }
 
