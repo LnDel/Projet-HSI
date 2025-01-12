@@ -29,8 +29,11 @@ is_valid_frame_t decode_mux_to_bcgv(uint8_t* frame) {
 
     crc_t received_crc;
     crc_t calculated_crc;
+    chassis_pb_t chassisProblem;
+    motor_pb_t motorProblem;
     mileage_t mileage;
     rpm_t rpm;
+    battery_pb_t batteryProblem;
 
     // Check if the CRC8 is valid
     received_crc = frame[14];
@@ -47,16 +50,62 @@ is_valid_frame_t decode_mux_to_bcgv(uint8_t* frame) {
 
     set_speed(frame[5]);
 
+    chassisProblem = frame[6];
     set_problemChassis(frame[6]);
+    if (chassisProblem == PRESSURE_TIRES)
+    {
+        set_indicatorTirePressure(1);
+    }
+    else if (chassisProblem == CAR_BRAKE)
+    {
+        set_indicatorBrakeFailure(1);
+    }
+    else
+    {
+        set_problemChassis(0);
+        set_indicatorTirePressure(0);
+        set_indicatorBrakeFailure(0);
+    }
 
+    motorProblem = frame[7];
     set_problemMotor(frame[7]);
+    if (motorProblem == PRESSURE_DEFECT)
+    {
+        set_indicatorMotorPressure(1);
+    }
+    else if (motorProblem == COOLANT)
+    {
+        set_indicatorTempLDR(1);
+    }
+    else if (motorProblem == OVERHEATING_OIL)
+    {
+        set_indicatorOilOverheating(1);
+    }
+    else{
+        set_indicatorMotorPressure(0);
+        set_indicatorTempLDR(0);
+        set_indicatorOilOverheating(0);
+    }
 
     set_tankLevel(frame[8]);
 
     rpm = (frame[9] << 24) | (frame[10] << 16) | (frame[11] << 8) | frame[12];
     set_rpm(rpm);
 
+    batteryProblem = frame[13];
     set_problemBattery(frame[13]);
+    if (batteryProblem == DISCHARGED)
+    {
+        set_indicatorDischargedBattery(1);
+    }
+    else if (batteryProblem == FAILURE)
+    {
+        set_indicatorBatteryFailure(1);
+    }
+    else{
+        set_indicatorDischargedBattery(0);
+        set_indicatorBatteryFailure(0);
+    }
 
     set_receivedCrc8(received_crc);
 
